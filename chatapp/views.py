@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 # Create your views here.
-def frontpage(request):
+def get_frontpage(request):
     return render(request, 'chatapp/frontpage.html')

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'phonenumbers',
     'channels',
     'chatapp',
-    'authentication'
+    'authentication',
+    'roomsapp'
 ]
 
 MIDDLEWARE = [
