@@ -17,14 +17,14 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chatproject.settings')
 
 django_asgi_app = get_asgi_application()
 
-import roomsapp.routing
+import rooms.routing
 
 application = ProtocolTypeRouter({
     "http": django_asgi_app,
     "websocket": AllowedHostsOriginValidator(
         AuthMiddlewareStack(
             URLRouter(
-                roomsapp.routing.websocket_urlpatterns
+                rooms.routing.websocket_urlpatterns
             )
         )
     ),

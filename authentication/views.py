@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth import login
 from django.views.generic.edit import FormView
 from .forms import SignUpForm

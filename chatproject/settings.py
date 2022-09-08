@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumbers',
     'channels',
-    'chatapp',
+    'main',
     'authentication',
-    'roomsapp'
+    'rooms'
 ]
 
 MIDDLEWARE = [

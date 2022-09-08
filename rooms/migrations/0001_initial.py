@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', models.TextField(max_length=100000)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('room', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='roomsapp.room')),
+                ('room', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='rooms.room')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to=settings.AUTH_USER_MODEL)),
             ],
             options={
