@@ -11,6 +11,6 @@ def list_rooms(request):
 
 @login_required
 def get_room(request, slug):
-    room = get_object_or_404(slug=slug)
+    room = get_object_or_404(Room, slug=slug)
     messages = Message.objects.filter(room=room)[0:25]
     return render(request, 'roomsapp/room.html', {'room': room, 'messages': messages})
