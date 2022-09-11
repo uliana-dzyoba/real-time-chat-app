@@ -30,4 +30,4 @@ def update_profile(request):
     else:
         user_form = UserForm(instance=request.user)
         user_profile_form = UserProfileForm(instance=request.user.userprofile)
-    return render(request, "authentication/profile.html", {"user_form":user_form, "user_profile_form": user_profile_form})
+    return render(request, "authentication/profile.html", {"user_form": user_form, "user_profile_form": user_profile_form})
