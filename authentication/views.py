@@ -22,7 +22,7 @@ class SignUpFormView(FormView):
 def update_profile(request):
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=request.user)
-        user_profile_form = UserProfileForm(request.POST, instance=request.user.userprofile)
+        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
         if user_form.is_valid() and user_profile_form.is_valid():
             user_form.save()
             user_profile_form.save()

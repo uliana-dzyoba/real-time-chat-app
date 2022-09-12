@@ -7,7 +7,7 @@
     <h1 class="text-3xl lg:text-4xl text-white">User Profile</h1>
 </div>
 
-<form method="post" action="." class="flex flex-col justify-center items-center lg:w-1/3 px-4 mx-auto">
+<form enctype="multipart/form-data" method="post" action="." class="flex flex-col justify-center items-center lg:w-1/3 px-4 mx-auto">
     {% csrf_token %}
 
     <div class="w-full mb-3">
@@ -42,7 +42,7 @@
 
     <div class="w-full mb-3">
         <label class="text-white">Phone number</label>
-        <input type="tel" name="phone_number" value="{% if request.user.userprofile.phone_number == None %}{% endif %}"
+        <input type="tel" name="phone_number" value="{{request.user.userprofile.phone_number|default:''}}"
                class="w-full mt-2 px-4 py-2 rounded-xl">
         {% for error in user_profile_form.phone_number.errors %}
             <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
@@ -61,15 +61,29 @@
         {% endfor %}
     </div>
 
-    <div class="w-full mb-3">
-        <label class="text-white">Profile picture</label>
-        <input type="file" name="profile_pic" class="w-full mt-2 px-4 py-2 rounded-xl">
-        {% for error in user_profile_form.profile_pic.errors %}
-            <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                <p>{{ error|escape }}</p>
-            </div>
-        {% endfor %}
-    </div>
+<!--    <div class="w-full mb-3">-->
+<!--        <label class="text-white">Profile picture</label>-->
+<!--        <input type="file" name="profile_pic" class="w-full mt-2 px-4 py-2 rounded-xl">-->
+<!--        {% for error in user_profile_form.profile_pic.errors %}-->
+<!--            <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">-->
+<!--                <p>{{ error|escape }}</p>-->
+<!--            </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+
+    {{user_profile_form.profile_pic}}
+
+    {% for error in user_profile_form.profile_pic.errors %}
+        <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+            <p>{{ error|escape }}</p>
+        </div>
+    {% endfor %}
+
+    {% for error in user_profile_form.non_field_errors %}
+        <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+            <p>{{ error|escape }}</p>
+        </div>
+    {% endfor %}
 
     <button class="w-full mt-1 px-5 py-3 rounded-xl text-white bg-teal-800 hover:bg-teal-700">Submit</button>
 </form>
