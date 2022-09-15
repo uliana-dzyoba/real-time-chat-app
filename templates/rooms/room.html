@@ -11,21 +11,44 @@
     <div class="chat-messages space-y-3" id="chat-messages">
         <!-- {% for m in messages %}<b>{{ m.user.username }}</b>: {{ m.content }}<br>{% endfor %} -->
         {% for m in messages %}
-            <div>
-                {% if request.user.username == m.user.username %}
-
-                {% else %}
-                    <div style="aspect-ratio: 1/1;">
-                        <img src="{{m.user.userprofile.profile_pic.url}}" alt="profile_pic" class="w-full rounded-3xl" 
-                        style="aspect-ratio: 1/1; object-fit: cover"/>
+            {% if request.user.username == m.user.username %}
+                <div class="flex flex-row justify-end h-8">
+                    <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+                        <p>{{ m.content }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="flex flex-row h-16">
+                    <div class="mx-1" style="aspect-ratio: 1/1;">
+                        <img src="{% if m.user.userprofile.profile_pic %}{{m.user.userprofile.profile_pic.url}}{% else %}{{dpfp}}{% endif %}"
+                            alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
                     </div>
                     <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                        <div><p>{{ m.user.username }}</p></div>
+                        <div class="font-bold"><p>{{ m.user.username }}</p></div>
                         <div><p>{{ m.content }}</p></div>
-                    </div>                   
-                {% endif %}
-            </div>
+                    </div> 
+                </div>                  
+            {% endif %}
         {% endfor %}
+        <template id="mymessage">
+            <div class="flex flex-row justify-end h-8">
+                <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+                    <p>{{ m.content }}</p>
+                </div>
+            </div>
+        </template>
+        <template id="message">
+            <div class="flex flex-row h-16">
+                <div class="mx-1" style="aspect-ratio: 1/1;">
+                    <img id ="pfp" alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1;
+                     object-fit: cover"/>
+                </div>
+                <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+                    <div class="font-bold"><p id="username">{{ m.user.username }}</p></div>
+                    <div><p id="content">{{ m.content }}</p></div>
+                </div>
+            </div>
+        </template>
     </div>
 </div>
 
@@ -42,7 +65,12 @@
 {% block scripts %}
 {{ room.slug|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username" }}
-{{ request.user.userprofile.profile_pic.url|json_script:"json-pfp" }}
+{% if request.user.userprofile.profile_pic %}
+    {{ request.user.userprofile.profile_pic.url|json_script:"json-pfp" }}
+{% else %}
+    {{ dpfp|json_script:"json-pfp" }}
+{% endif %}
+
 
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
@@ -60,8 +88,29 @@
         const data = JSON.parse(e.data);
 
         if (data.message) {
-            document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
+            // document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
             // var newDiv = document.createElement("div");
+            messages = document.querySelector('#chat-messages')
+            if (data.username === userName) {
+                var template = document.querySelector('#mymessage')
+                var clone = template.content.cloneNode(true);
+                var mtext = clone.querySelector("p");
+                mtext.textContent = data.message
+            } else {
+                var template = document.querySelector('#message')
+                var clone = template.content.cloneNode(true);
+                var musername = clone.querySelector("#username");
+                musername.textContent = data.username
+                var mtext = clone.querySelector("#content");
+                mtext.textContent = data.message
+                var mpfp = clone.querySelector("#pfp");
+                // if (data.pfp != null) {
+                //     mpfp.src = data.pfp
+                // }
+                mpfp.src = data.pfp
+            }
+            messages.appendChild(clone);
+
         } else {
             alert('The message was empty!')
         }
@@ -86,15 +135,16 @@
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
 
-        console.log({
-            'message': message,
-            'username': userName,
-            'room': roomName
-        })
+        // console.log({
+        //     'message': message,
+        //     'username': userName,
+        //     'room': roomName
+        // })
 
         chatSocket.send(JSON.stringify({
             'message': message,
             'username': userName,
+            'pfp': userPfp,
             'room': roomName
         }));
 
