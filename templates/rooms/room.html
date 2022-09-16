@@ -12,13 +12,14 @@
         <!-- {% for m in messages %}<b>{{ m.user.username }}</b>: {{ m.content }}<br>{% endfor %} -->
         {% for m in messages %}
             {% if request.user.username == m.user.username %}
-                <div class="flex flex-row justify-end h-8">
+                <div class="flex flex-row justify-end h-14">
                     <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                        <p>{{ m.content }}</p>
+                        <div><p>{{ m.content }}</p></div>
+                        <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
                     </div>
                 </div>
             {% else %}
-                <div class="flex flex-row h-16">
+                <div class="flex flex-row h-20">
                     <div class="mx-1" style="aspect-ratio: 1/1;">
                         <img src="{% if m.user.userprofile.profile_pic %}{{m.user.userprofile.profile_pic.url}}{% else %}{{dpfp}}{% endif %}"
                             alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
@@ -26,26 +27,29 @@
                     <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
                         <div class="font-bold"><p>{{ m.user.username }}</p></div>
                         <div><p>{{ m.content }}</p></div>
+                        <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
                     </div> 
                 </div>                  
             {% endif %}
         {% endfor %}
         <template id="mymessage">
-            <div class="flex flex-row justify-end h-8">
+            <div class="flex flex-row justify-end h-14">
                 <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                    <p>{{ m.content }}</p>
+                    <div><p id="content"></p></div>
+                    <div class="float-right"><p class="text-xs" id="time">{{ m.date_added|date:'H:i' }}</p></div>
                 </div>
             </div>
         </template>
         <template id="message">
-            <div class="flex flex-row h-16">
+            <div class="flex flex-row h-20">
                 <div class="mx-1" style="aspect-ratio: 1/1;">
                     <img id ="pfp" alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1;
                      object-fit: cover"/>
                 </div>
                 <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                    <div class="font-bold"><p id="username">{{ m.user.username }}</p></div>
-                    <div><p id="content">{{ m.content }}</p></div>
+                    <div class="font-bold"><p id="username"></p></div>
+                    <div><p id="content"></p></div>
+                    <div class="float-right"><p class="text-xs" id="time"></p></div>
                 </div>
             </div>
         </template>
@@ -94,8 +98,11 @@
             if (data.username === userName) {
                 var template = document.querySelector('#mymessage')
                 var clone = template.content.cloneNode(true);
-                var mtext = clone.querySelector("p");
+                var mtext = clone.querySelector("#content");
                 mtext.textContent = data.message
+                var mtime = clone.querySelector("#time");
+                mtime.textContent = data.time
+                console.log(data.time)
             } else {
                 var template = document.querySelector('#message')
                 var clone = template.content.cloneNode(true);
@@ -104,10 +111,10 @@
                 var mtext = clone.querySelector("#content");
                 mtext.textContent = data.message
                 var mpfp = clone.querySelector("#pfp");
-                // if (data.pfp != null) {
-                //     mpfp.src = data.pfp
-                // }
                 mpfp.src = data.pfp
+                var mtime = clone.querySelector("#time");
+                mtime.textContent = data.time
+                console.log(data.time)
             }
             messages.appendChild(clone);
 
@@ -134,12 +141,6 @@
 
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
-
-        // console.log({
-        //     'message': message,
-        //     'username': userName,
-        //     'room': roomName
-        // })
 
         chatSocket.send(JSON.stringify({
             'message': message,
