@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 
+{% load static %}
+
 {% block title %}Sign Up | {% endblock %}
 
 {% block content %}
@@ -12,7 +14,7 @@
 
     <div class="w-full mb-3 flex flex-col justify-center items-center">
         <div class="sm:w-5/12 mt-2" style="aspect-ratio: 1/1;">
-            <img src="{% if request.user.userprofile.profile_pic %}{{request.user.userprofile.profile_pic.url}}{% else %}{{dpfp}}{% endif %}"
+            <img src="{% if request.user.userprofile.profile_pic %}{{request.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
                  alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
         </div>
         <div>

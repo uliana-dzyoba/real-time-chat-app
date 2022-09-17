@@ -29,7 +29,7 @@ def update_profile(request):
             user_profile_form.save()
             return redirect("authentication:profile")
     else:
-        default_pfp = settings.MEDIA_URL + 'images/default-avatar.jpg'
+        default_pfp = 'authentication/images/default-avatar.jpg'
         user_form = UserForm(instance=request.user)
         user_profile_form = UserProfileForm(instance=request.user.userprofile)
     return render(request, "authentication/profile.html", {"user_form": user_form, "user_profile_form": user_profile_form,

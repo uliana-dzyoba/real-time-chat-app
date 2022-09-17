@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-from django.conf import settings
 from .models import Room, Message
 
 
@@ -14,5 +13,5 @@ def list_rooms(request):
 def get_room(request, slug):
     room = get_object_or_404(Room, slug=slug)
     messages = Message.objects.filter(room=room)[0:25]
-    default_pfp = settings.MEDIA_URL + 'images/default-avatar.jpg'
+    default_pfp = 'rooms/images/default-avatar.jpg'
     return render(request, 'rooms/room.html', {'room': room, 'messages': messages, "dpfp": default_pfp})
