@@ -2,82 +2,29 @@
 
 {% load static %}
 
-{% block title %}Sign Up | {% endblock %}
+{% block title %}Profile | {% endblock %}
 
 {% block content %}
 <div class="p-10 lg:pt-10 pb-1 text-center">
-    <h1 class="text-3xl lg:text-4xl text-white">User Profile</h1>
+    <div class="h-9 w-9 lg:h-10 lg:w-10 inline-block float-left" onclick="location.href='{{ request.META.HTTP_REFERER }}'">
+        <svg style="height: auto; width: auto;" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <title>chevron-left</title>
+            <path d="M11 16l13-13v-3l-16 16 16 16v-3l-13-13z"></path>
+        </svg>
+    </div>
+    <h1 class="text-3xl lg:text-4xl text-white  mx-9 lg:mx-10">{{user.first_name}} {{user.last_name}}</h1>
 </div>
 
-<form enctype="multipart/form-data" method="post" action="." class="flex flex-col justify-center items-center lg:w-1/3 px-4 mx-auto">
-    {% csrf_token %}
-
-    <div class="w-full mb-3 flex flex-col justify-center items-center">
-        <div class="sm:w-5/12 mt-2" style="aspect-ratio: 1/1;">
-            <img src="{% if request.user.userprofile.profile_pic %}{{request.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
-                 alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
-        </div>
-        <div>
-            <input type="file" name="profile_pic" class="mt-2">
-            {% for error in user_profile_form.profile_pic.errors %}
-                <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                    <p>{{ error|escape }}</p>
-                </div>
-            {% endfor %}
-        </div>
+<div class="flex flex-col justify-center items-center lg:w-1/3 px-4 mx-auto">
+    <div class="sm:w-5/12 mt-2" style="aspect-ratio: 1/1;">
+        <img src="{% if user.userprofile.profile_pic %}{{user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
+             alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
     </div>
-
-    <div class="w-full mb-3">
-        <label class="text-white">First name</label>
-        <input type="text" name="first_name" value="{{request.user.first_name}}" class="w-full mt-2 px-4 py-2 rounded-xl">
-        {% for error in user_profile_form.first_name.errors %}
-            <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                <p>{{ error|escape }}</p>
-            </div>
-        {% endfor %}
+    <div>
+        {{user.userprofile.bio}}
     </div>
-
-    <div class="w-full mb-3">
-        <label class="text-white">Last name</label>
-        <input type="text" name="last_name" value="{{request.user.last_name}}" class="w-full mt-2 px-4 py-2 rounded-xl">
-        {% for error in user_profile_form.last_name.errors %}
-            <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                <p>{{ error|escape }}</p>
-            </div>
-        {% endfor %}
+    <div>
+        <p>@{{user.username}}</p>
     </div>
-
-    <div class="w-full mb-3">
-        <label class="text-white">Email</label>
-        <input type="email" name="email" value="{{request.user.email}}" class="w-full mt-2 px-4 py-2 rounded-xl">
-        {% for error in user_profile_form.email.errors %}
-            <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                <p>{{ error|escape }}</p>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div class="w-full mb-3">
-        <label class="text-white">Phone number</label>
-        <input type="tel" name="phone_number" value="{{request.user.userprofile.phone_number|default:''}}"
-               class="w-full mt-2 px-4 py-2 rounded-xl">
-        {% for error in user_profile_form.phone_number.errors %}
-            <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                <p>{{ error|escape }}</p>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div class="w-full mb-3">
-        <label class="text-white">Bio</label>
-        <input type="text" name="bio" value="{{request.user.userprofile.bio}}" class="w-full mt-2 px-4 py-2 rounded-xl">
-        {% for error in user_profile_form.bio.errors %}
-            <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                <p>{{ error|escape }}</p>
-            </div>
-        {% endfor %}
-    </div>
-
-    <button class="w-full mt-1 px-5 py-3 rounded-xl text-white bg-teal-800 hover:bg-teal-700">Submit</button>
-</form>
+</div>
 {% endblock %}

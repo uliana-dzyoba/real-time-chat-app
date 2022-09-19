@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 import json
-from datetime import datetime
+from django.utils import timezone
+
 from .models import Room, Message
 
 
@@ -52,7 +53,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['message']
         username = event['username']
         pfp = event['pfp']
-        timestamp = datetime.now()
+        timestamp = timezone.localtime(timezone.now())
         time = timestamp.strftime("%H:%M")
 
         # Send message to WebSocket
