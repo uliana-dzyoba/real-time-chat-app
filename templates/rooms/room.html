@@ -37,13 +37,13 @@
             <div class="flex flex-row justify-end h-14">
                 <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
                     <div><p id="content"></p></div>
-                    <div class="float-right"><p class="text-xs" id="time">{{ m.date_added|date:'H:i' }}</p></div>
+                    <div class="float-right"><p class="text-xs" id="time"></p></div>
                 </div>
             </div>
         </template>
         <template id="message">
             <div class="flex flex-row h-20">
-                <div class="mx-1" style="aspect-ratio: 1/1;">
+                <div class="mx-1" style="aspect-ratio: 1/1;" id="pfpdiv">
                     <img src="{% get_static_prefix %}{{dpfp}}" id ="pfp" alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1;
                      object-fit: cover"/>
                 </div>
@@ -75,12 +75,14 @@
 {% else %}
     {{ ''|json_script:"json-pfp" }}
 {% endif %}
-
+{% url "authentication:profile" 'user' as profile_url %}
+{{ profile_url|json_script:"json-url" }}
 
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = JSON.parse(document.getElementById('json-username').textContent);
     const userPfp = JSON.parse(document.getElementById('json-pfp').textContent);
+    const pfUrl = JSON.parse(document.getElementById('json-url').textContent);
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -95,30 +97,31 @@
         if (data.message) {
             // document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
             // var newDiv = document.createElement("div");
-            messages = document.querySelector('#chat-messages')
+            messages = document.querySelector('#chat-messages');
             if (data.username === userName) {
-                var template = document.querySelector('#mymessage')
+                var template = document.querySelector('#mymessage');
                 var clone = template.content.cloneNode(true);
                 var mtext = clone.querySelector("#content");
-                mtext.textContent = data.message
+                mtext.textContent = data.message;
                 var mtime = clone.querySelector("#time");
-                mtime.textContent = data.time
+                mtime.textContent = data.time;
                 console.log(data.time)
             } else {
-                var template = document.querySelector('#message')
+                var template = document.querySelector('#message');
                 var clone = template.content.cloneNode(true);
                 var musername = clone.querySelector("#username");
-                musername.textContent = data.username
+                musername.textContent = data.username;
                 var mtext = clone.querySelector("#content");
-                mtext.textContent = data.message
+                mtext.textContent = data.message;
                 var mpfp = clone.querySelector("#pfp");
                 if (data.pfp !== '') {
                     mpfp.src = data.pfp
-                }
-                // mpfp.src = data.pfp
+                    pfpl = clone.querySelector("#pfpdiv");
+                    url = pfUrl.replace("user", data.username);
+                    pfpl.setAttribute('onclick', 'location.href='+'url');
+                }               
                 var mtime = clone.querySelector("#time");
-                mtime.textContent = data.time
-                console.log(data.time)
+                mtime.textContent = data.time;
             }
             messages.appendChild(clone);
 
