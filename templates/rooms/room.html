@@ -36,21 +36,21 @@
         <template id="mymessage">
             <div class="flex flex-row justify-end h-14">
                 <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                    <div><p id="content"></p></div>
-                    <div class="float-right"><p class="text-xs" id="time"></p></div>
+                    <div><p class="mycontent"></p></div>
+                    <div class="float-right"><p class="mytime text-xs"></p></div>
                 </div>
             </div>
         </template>
         <template id="message">
             <div class="flex flex-row h-20">
-                <div class="mx-1" style="aspect-ratio: 1/1;" id="pfpdiv">
-                    <img src="{% get_static_prefix %}{{dpfp}}" id ="pfp" alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1;
+                <div class="pfpdiv mx-1" style="aspect-ratio: 1/1;">
+                    <img src="{% get_static_prefix %}{{dpfp}}" alt="profile_pic" class="pfp w-full rounded-3xl" style="aspect-ratio: 1/1;
                      object-fit: cover"/>
                 </div>
                 <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
-                    <div class="font-bold"><p id="username"></p></div>
-                    <div><p id="content"></p></div>
-                    <div class="float-right"><p class="text-xs" id="time"></p></div>
+                    <div class="font-bold"><p class="username"></p></div>
+                    <div><p class="content"></p></div>
+                    <div class="float-right"><p class="time text-xs"></p></div>
                 </div>
             </div>
         </template>
@@ -97,30 +97,58 @@
         if (data.message) {
             // document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
             // var newDiv = document.createElement("div");
-            messages = document.querySelector('#chat-messages');
+            // let messages = document.querySelector('#chat-messages');
+            // let clone;
+            // if (data.username === userName) {
+            //     let template = document.querySelector('#mymessage');
+            //     clone = template.content.cloneNode(true);
+            //     let mtext = clone.querySelector("#mycontent");
+            //     mtext.textContent = data.message;
+            //     let mtime = clone.querySelector("#mytime");
+            //     mtime.textContent = data.time;
+            // } else {
+            //     let template = document.querySelector('#message');
+            //     clone = template.content.cloneNode(true);
+            //     let musername = clone.querySelector("#username");
+            //     musername.textContent = data.username;
+            //     let mtext = clone.querySelector("#content");
+            //     mtext.textContent = data.message;
+            //     let mpfp = clone.querySelector("#pfp");
+            //     if (data.pfp !== '') {
+            //         mpfp.src = data.pfp
+            //     }
+            //     let pfpl = clone.querySelector("#pfpdiv");
+            //     var url = pfUrl.replace("user", data.username);
+            //     console.log(url)
+            //     pfpl.setAttribute('onclick', 'location.href='+'"'+ url + '"');               
+            //     let mtime = clone.querySelector("#time");
+            //     mtime.textContent = data.time;
+            // }
+            const messages = document.querySelector('#chat-messages');
+            let clone;
             if (data.username === userName) {
-                var template = document.querySelector('#mymessage');
-                var clone = template.content.cloneNode(true);
-                var mtext = clone.querySelector("#content");
+                const template = document.querySelector('#mymessage');
+                clone = template.content.cloneNode(true);
+                const mtext = clone.querySelector(".mycontent");
                 mtext.textContent = data.message;
-                var mtime = clone.querySelector("#time");
+                const mtime = clone.querySelector(".mytime");
                 mtime.textContent = data.time;
-                console.log(data.time)
             } else {
-                var template = document.querySelector('#message');
-                var clone = template.content.cloneNode(true);
-                var musername = clone.querySelector("#username");
+                const template = document.querySelector('#message');
+                clone = template.content.cloneNode(true);
+                const musername = clone.querySelector(".username");
                 musername.textContent = data.username;
-                var mtext = clone.querySelector("#content");
+                const mtext = clone.querySelector(".content");
                 mtext.textContent = data.message;
-                var mpfp = clone.querySelector("#pfp");
+                const mpfp = clone.querySelector(".pfp");
                 if (data.pfp !== '') {
                     mpfp.src = data.pfp
-                    pfpl = clone.querySelector("#pfpdiv");
-                    url = pfUrl.replace("user", data.username);
-                    pfpl.setAttribute('onclick', 'location.href='+'url');
-                }               
-                var mtime = clone.querySelector("#time");
+                }
+                const pfpl = clone.querySelector(".pfpdiv");
+                const url = pfUrl.replace("user", data.username);
+                console.log(url)
+                pfpl.setAttribute('onclick', 'location.href='+'"'+ url + '"');
+                const mtime = clone.querySelector(".time");
                 mtime.textContent = data.time;
             }
             messages.appendChild(clone);
