@@ -12,6 +12,6 @@ def list_rooms(request):
 @login_required
 def get_room(request, slug):
     room = get_object_or_404(Room, slug=slug)
-    messages = Message.objects.filter(room=room)[0:25]
+    messages = Message.objects.filter(room=room)[0:25:-1]
     default_pfp = 'rooms/images/default-avatar.jpg'
     return render(request, 'rooms/room.html', {'room': room, 'messages': messages, "dpfp": default_pfp})

@@ -13,19 +13,19 @@
     <div class="chat-messages space-y-3" id="chat-messages">
         {% for m in messages %}
             {% if request.user.username == m.user.username %}
-                <div class="flex flex-row justify-end h-14">
-                    <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+                <div class="flex flex-row justify-end">
+                    <div class="mt-1 ml-20 px-2 py-1 rounded-xl bg-red-300 text-white">
                         <div><p>{{ m.content }}</p></div>
                         <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
                     </div>
                 </div>
             {% else %}
-                <div class="flex flex-row h-20">
-                    <div class="mx-1" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:profile" m.user.username %}';">
+                <div class="flex flex-row">
+                    <div class="mx-1 h-20 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:profile" m.user.username %}';">
                         <img src="{% if m.user.userprofile.profile_pic %}{{m.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
                             alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
                     </div>
-                    <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+                    <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-red-300 text-white">
                         <div class="font-bold"><p>{{ m.user.username }}</p></div>
                         <div><p>{{ m.content }}</p></div>
                         <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
@@ -34,20 +34,20 @@
             {% endif %}
         {% endfor %}
         <template id="mymessage">
-            <div class="flex flex-row justify-end h-14">
-                <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+            <div class="flex flex-row justify-end">
+                <div class="mt-1 ml-20 px-2 py-1 rounded-xl bg-red-300 text-white">
                     <div><p class="mycontent"></p></div>
                     <div class="float-right"><p class="mytime text-xs"></p></div>
                 </div>
             </div>
         </template>
         <template id="message">
-            <div class="flex flex-row h-20">
-                <div class="pfpdiv mx-1" style="aspect-ratio: 1/1;">
+            <div class="flex flex-row">
+                <div class="pfpdiv mx-1 h-20 cursor-pointer" style="aspect-ratio: 1/1;">
                     <img src="{% get_static_prefix %}{{dpfp}}" alt="profile_pic" class="pfp w-full rounded-3xl" style="aspect-ratio: 1/1;
                      object-fit: cover"/>
                 </div>
-                <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
+                <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-red-300 text-white">
                     <div class="font-bold"><p class="username"></p></div>
                     <div><p class="content"></p></div>
                     <div class="float-right"><p class="time text-xs"></p></div>
@@ -94,68 +94,34 @@
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
 
-        if (data.message) {
-            // document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
-            // var newDiv = document.createElement("div");
-            // let messages = document.querySelector('#chat-messages');
-            // let clone;
-            // if (data.username === userName) {
-            //     let template = document.querySelector('#mymessage');
-            //     clone = template.content.cloneNode(true);
-            //     let mtext = clone.querySelector("#mycontent");
-            //     mtext.textContent = data.message;
-            //     let mtime = clone.querySelector("#mytime");
-            //     mtime.textContent = data.time;
-            // } else {
-            //     let template = document.querySelector('#message');
-            //     clone = template.content.cloneNode(true);
-            //     let musername = clone.querySelector("#username");
-            //     musername.textContent = data.username;
-            //     let mtext = clone.querySelector("#content");
-            //     mtext.textContent = data.message;
-            //     let mpfp = clone.querySelector("#pfp");
-            //     if (data.pfp !== '') {
-            //         mpfp.src = data.pfp
-            //     }
-            //     let pfpl = clone.querySelector("#pfpdiv");
-            //     var url = pfUrl.replace("user", data.username);
-            //     console.log(url)
-            //     pfpl.setAttribute('onclick', 'location.href='+'"'+ url + '"');               
-            //     let mtime = clone.querySelector("#time");
-            //     mtime.textContent = data.time;
-            // }
-            const messages = document.querySelector('#chat-messages');
-            let clone;
-            if (data.username === userName) {
-                const template = document.querySelector('#mymessage');
-                clone = template.content.cloneNode(true);
-                const mtext = clone.querySelector(".mycontent");
-                mtext.textContent = data.message;
-                const mtime = clone.querySelector(".mytime");
-                mtime.textContent = data.time;
-            } else {
-                const template = document.querySelector('#message');
-                clone = template.content.cloneNode(true);
-                const musername = clone.querySelector(".username");
-                musername.textContent = data.username;
-                const mtext = clone.querySelector(".content");
-                mtext.textContent = data.message;
-                const mpfp = clone.querySelector(".pfp");
-                if (data.pfp !== '') {
-                    mpfp.src = data.pfp
-                }
-                const pfpl = clone.querySelector(".pfpdiv");
-                const url = pfUrl.replace("user", data.username);
-                console.log(url)
-                pfpl.setAttribute('onclick', 'location.href='+'"'+ url + '"');
-                const mtime = clone.querySelector(".time");
-                mtime.textContent = data.time;
-            }
-            messages.appendChild(clone);
-
+        const messages = document.querySelector('#chat-messages');
+        let clone;
+        if (data.username === userName) {
+            const template = document.querySelector('#mymessage');
+            clone = template.content.cloneNode(true);
+            const mtext = clone.querySelector(".mycontent");
+            mtext.textContent = data.message;
+            const mtime = clone.querySelector(".mytime");
+            mtime.textContent = data.time;
         } else {
-            alert('The message was empty!')
+            const template = document.querySelector('#message');
+            clone = template.content.cloneNode(true);
+            const musername = clone.querySelector(".username");
+            musername.textContent = data.username;
+            const mtext = clone.querySelector(".content");
+            mtext.textContent = data.message;
+            const mpfp = clone.querySelector(".pfp");
+            if (data.pfp !== '') {
+                mpfp.src = data.pfp
+            }
+            const pfpl = clone.querySelector(".pfpdiv");
+            const url = pfUrl.replace("user", data.username);
+            console.log(url)
+            pfpl.setAttribute('onclick', `location.href="${url}"`);
+            const mtime = clone.querySelector(".time");
+            mtime.textContent = data.time;
         }
+        messages.appendChild(clone);       
 
         scrollToBottom();
     };
@@ -176,13 +142,15 @@
 
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
-
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'username': userName,
-            'pfp': userPfp,
-            'room': roomName
-        }));
+        
+        if (message) {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'username': userName,
+                'pfp': userPfp,
+                'room': roomName
+            }));
+        }
 
         messageInputDom.value = '';
 
