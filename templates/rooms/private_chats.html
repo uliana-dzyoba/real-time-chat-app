@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 
+{% load static %}
+
 {% block title %}Chats | {% endblock %}
 
 {% block content %}
@@ -7,10 +9,20 @@
     <h1 class="text-3xl lg:text-6xl text-white">Private Chats</h1>
 </div>
 
-<div class="w-full flex flex-wrap items-center">
-    {% for room in rooms %}
-        <div>
-
+<div class="lg:w-2/4 mx-4 lg:mx-auto">
+    {% for chat in chats %}
+        <div class="flex flex-row p-2 my-2 bg-red-300 rounded-xl"  onclick="location.href='{% url "chats:private_chat" chat.receiver.username  %}'">
+            <div class="mx-1 h-20 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:profile" chat.receiver.username %}';">
+                <img src="{% if chat.receiver.userprofile.profile_pic %}{{chat.receiver.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
+                    alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+            </div>
+            <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-red-300 text-white">
+                <div class="font-bold"><p>{{ chat.receiver.username }}</p></div>
+                <div>
+                    <p>{% if request.user.username == chat.message.user.username %}Me: {% endif %}</p>
+                    <p>{% if chat.message.content|length > 80 %}{{ chat.message.content|slice:":80" }}...{% else %}{{ chat.message.content }}{% endif %}</p></div>
+                <div class="float-right"><p class="text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div>
+            </div> 
         </div>
     {% endfor %}
 </div>

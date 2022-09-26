@@ -24,8 +24,11 @@ def list_private_chats(request):
     rooms = Room.objects.filter(private_chat=True, slug__contains=request.user.username)
     chats = []
     for room in rooms:
-        chats += [{'room': room, 'receiver': room['slug'].replace(request.user.username, '')}]
-    return render(request, 'rooms/private_chats.html', {'chats': chats})
+        username = room.slug.replace(request.user.username, '')
+        receiver = User.objects.get(username=username)
+        message = Message.objects.filter(room=room)[0]
+        chats += [{'receiver': receiver, 'message': message}]
+    return render(request, 'rooms/private_chats.html', {'chats': chats, "dpfp": default_pfp})
 
 
 @login_required
@@ -39,7 +42,6 @@ def get_private_chat(request, username):
         room = room_qs[0]
     else:
         name = first.capitalize() + second.capitalize()
-        room = Room.objects.create(name=name, slug=slug)
-
+        room = Room.objects.create(name=name, slug=slug, private_chat=True)
     messages = Message.objects.filter(room=room)[0:25:-1]
     return render(request, 'rooms/room.html', {'room': room, 'username': username, 'messages': messages, "dpfp": default_pfp})

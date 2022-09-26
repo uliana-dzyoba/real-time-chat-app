@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/rooms/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'authentication:login'
+LOGIN_REDIRECT_URL = 'chats:rooms'
+LOGOUT_REDIRECT_URL = 'main:frontpage'
 
 # Application definition
 
