@@ -10,6 +10,7 @@ from .forms import SignUpForm, UserForm, UserProfileForm
 
 default_pfp = 'authentication/images/default-avatar.jpg'
 
+
 class SignUpFormView(FormView):
     template_name = 'authentication/signup.html'
     form_class = SignUpForm
