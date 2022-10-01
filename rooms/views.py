@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
+
 from .models import Room, Message
 
 default_pfp = 'rooms/images/default-avatar.jpg'
@@ -8,8 +9,12 @@ default_pfp = 'rooms/images/default-avatar.jpg'
 
 @login_required
 def list_rooms(request):
-    rooms = Room.objects.filter(private_chat=False)
-    return render(request, 'rooms/rooms.html', {'rooms': rooms})
+    qs = Room.objects.filter(private_chat=False)
+    rooms = []
+    for room in qs:
+        message = Message.objects.filter(room=room)[0]
+        rooms += [{'room': room, 'message': message}]
+    return render(request, 'rooms/rooms.html', {'chats': rooms, "dpfp": default_pfp})
 
 
 @login_required
@@ -21,12 +26,14 @@ def get_room(request, slug):
 
 @login_required
 def list_private_chats(request):
-    rooms = Room.objects.filter(private_chat=True, slug__contains=request.user.username)
+    qs = Room.objects.filter(private_chat=True, slug__contains=request.user.username)
     chats = []
-    for room in rooms:
+    for room in qs:
         username = room.slug.replace(request.user.username, '')
         receiver = User.objects.get(username=username)
-        message = Message.objects.filter(room=room)[0]
+        message_qs = Message.objects.filter(room=room)
+        if message_qs.exists():
+            message = message_qs[0]
         chats += [{'receiver': receiver, 'message': message}]
     return render(request, 'rooms/private_chats.html', {'chats': chats, "dpfp": default_pfp})
 

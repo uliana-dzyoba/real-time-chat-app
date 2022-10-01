@@ -8,12 +8,22 @@
 </div>
 
 <div class="w-full flex flex-wrap items-center">
-    {% for room in rooms %}
-        <div class="w-full lg:w-1/4 px-3 py-3">
+    {% for chat in chats %}
+        <div class="grow px-3 py-3 cursor-pointer" onclick="location.href='{% url "chats:room" chat.room.slug %}'">
             <div class="p-4 bg-white shadow rounded-xl text-center">
-                <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
-                <a href="{% url 'chats:room' room.slug %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</a>
+                <h2 class="mb-5 text-2xl font-semibold">{{ chat.room.name }}</h2>
             </div>
+            <div class="flex flex-row">
+                <div class="mx-1 h-20" style="aspect-ratio: 1/1;">
+                    <img src="{% if chat.message.user.userprofile.profile_pic %}{{chat.message.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
+                        alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                </div>
+                <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-red-300 text-white">
+                    <div class="font-bold"><p>{{ chat.message.user.username }}</p></div>
+                    <div><p>{% if chat.message.content|length > 40 %}{{ chat.message.content|slice:":40" }}...{% else %}{{ chat.message.content }}{% endif %}</p></div>
+                    <div class="float-right"><p class="text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div>
+                </div> 
+            </div>  
         </div>
     {% endfor %}
 </div>

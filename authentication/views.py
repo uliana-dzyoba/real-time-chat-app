@@ -5,6 +5,7 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
 from django.contrib.auth.models import User
+
 from .forms import SignUpForm, UserForm, UserProfileForm
 
 
