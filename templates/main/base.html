@@ -1,41 +1,97 @@
 <!DOCTYPE html>
 
 <html>
+    {% load tailwind_tags %}
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{% block title %}{% endblock %}Djangochat</title>
 
-        <script src="https://cdn.tailwindcss.com"></script>
+        {% tailwind_css %}
+
+        <script>
+            // It's best to inline this in `head` to avoid FOUC (flash of unstyled content) when changing pages or themes
+            if (
+              localStorage.getItem('color-theme') === 'dark' ||
+              (!('color-theme' in localStorage) &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches)
+            ) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+          </script>
 
         <style>
             .messages {
                 height: 400px;
                 overflow-y: auto;
             }
+
+            .switch-ball {
+                transition: transform 0.3s linear;
+            }
+
+            #checkbox:checked + label .switch-ball {
+                background-color: black;
+                transform: translateX(24px);
+            }
+            /* #checkbox:not(:checked) + label .switch-ball {
+            } */
         </style>
     </head>
 
     <body class="bg-teal-600">
-        <nav class="flex items-center justify-between px-4 py-5 bg-teal-800">
+        <nav class="flex items-center justify-between px-4 py-5 bg-teal-800 dark:bg-teal-100">
             <div>
                 <a href="/" class="text-xl text-white">Djangochat</a>
             </div>
 
             <div class="flex items-center space-x-4">
                 {% if request.user.is_authenticated %}
-                    <a href="/rooms/" class="text-white hover:text-gray-200">Rooms</a>
-                    <a href="/logout/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Log Out</a>
+                    <a href="{% url 'chats:rooms' %}" class="text-white hover:text-gray-200">Rooms</a>
+                    <a href="{% url 'chats:private_chats' %}" class="text-white hover:text-gray-200">Private Chats</a>
+                    <a href="{% url 'authentication:logout' %}" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Log Out</a>
                 {% else %}
-                    <a href="/login/" class="text-white hover:text-gray-200">Log In</a>
-                    <a href="/signup/" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Sign Up</a>
+                    <a href="{% url 'authentication:login' %}" class="text-white hover:text-gray-200">Log In</a>
+                    <a href="{% url 'authentication:signup' %}" class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700">Sign Up</a>
                 {% endif %}
+
+                <div>
+                    <input type="checkbox" name="" id="checkbox" class="hidden" />
+                    <label for="checkbox" class="cursor-pointer">
+                      <div class="w-9 h-5 flex items-center bg-gray-300 rounded-full p2">
+                        <div class="switch-ball w-4 h-4 bg-white rounded-full shadow"></div>
+                      </div>
+                    </label>
+                </div>
             </div>
         </nav>
 
         {% block content %}
         {% endblock %}
+
+        <script>
+            const checkbox = document.querySelector("#checkbox");
+            const html = document.querySelector("html");
+
+            const toggleDarkMode = function () {
+                if (checkbox.checked) {
+                    console.log("checked");
+                    html.classList.add("dark");
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    console.log("unchecked");
+                    html.classList.remove("dark");
+                    localStorage.setItem('color-theme', 'light');
+                }
+            }
+
+            //calling the function directly
+            toggleDarkMode();
+            checkbox.addEventListener("click", toggleDarkMode);
+        </script>
 
         {% block scripts %}
         {% endblock %}

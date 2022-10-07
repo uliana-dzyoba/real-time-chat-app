@@ -19,8 +19,9 @@
             <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-red-300 text-white">
                 <div class="font-bold"><p>{{ chat.receiver.username }}</p></div>
                 <div>
-                    <p>{% if request.user.username == chat.message.user.username %}Me: {% endif %}</p>
-                    <p>{% if chat.message.content|length > 80 %}{{ chat.message.content|slice:":80" }}...{% else %}{{ chat.message.content }}{% endif %}</p></div>
+                    <span class="font-bold">{% if request.user.username == chat.message.user.username %}Me: {% endif %}</span>
+                    <span>{% if chat.message.content|length > 80 %}{{ chat.message.content|slice:":80" }}...{% else %}{{ chat.message.content }}{% endif %}</span>
+                </div>
                 <div class="float-right"><p class="text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div>
             </div> 
         </div>

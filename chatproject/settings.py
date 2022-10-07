@@ -25,6 +25,10 @@ SECRET_KEY = 'django-insecure-*-1=j)1suimk9urt(e_wb(s6@(sv_*m3ph8(+6%h@gdugxdy!2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 ALLOWED_HOSTS = []
 
 LOGIN_URL = 'authentication:login'
@@ -44,8 +48,13 @@ INSTALLED_APPS = [
     'channels',
     'main',
     'authentication',
-    'rooms'
+    'rooms',
+    'tailwind',
+    'theme',
+    'django_browser_reload'
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'chatproject.urls'

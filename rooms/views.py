@@ -12,7 +12,10 @@ def list_rooms(request):
     qs = Room.objects.filter(private_chat=False)
     rooms = []
     for room in qs:
-        message = Message.objects.filter(room=room)[0]
+        message = None
+        message_qs = Message.objects.filter(room=room)
+        if message_qs.exists():
+            message = message_qs[0]
         rooms += [{'room': room, 'message': message}]
     return render(request, 'rooms/rooms.html', {'chats': rooms, "dpfp": default_pfp})
 
@@ -31,9 +34,7 @@ def list_private_chats(request):
     for room in qs:
         username = room.slug.replace(request.user.username, '')
         receiver = User.objects.get(username=username)
-        message_qs = Message.objects.filter(room=room)
-        if message_qs.exists():
-            message = message_qs[0]
+        message = Message.objects.filter(room=room)[0]
         chats += [{'receiver': receiver, 'message': message}]
     return render(request, 'rooms/private_chats.html', {'chats': chats, "dpfp": default_pfp})
 
