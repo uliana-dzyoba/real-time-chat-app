@@ -87,9 +87,9 @@
                     localStorage.setItem('color-theme', 'light');
                 }
             }
-
-            //calling the function directly
-            toggleDarkMode();
+            if (html.classList.contains('dark')) {
+                checkbox.checked = true
+            }
             checkbox.addEventListener("click", toggleDarkMode);
         </script>
 
