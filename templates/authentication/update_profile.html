@@ -18,7 +18,7 @@
                  alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
         </div>
         <div>
-            <input type="file" name="profile_pic" class="mt-2">
+            <input type="file" name="profile_pic" class="mt-2 border-gray-300 rounded">
             {% for error in user_profile_form.profile_pic.errors %}
                 <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
                     <p>{{ error|escape }}</p>

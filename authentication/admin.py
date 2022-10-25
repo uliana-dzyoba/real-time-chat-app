@@ -5,6 +5,7 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from .models import UserProfile
 
 
+# view user profile in user admin
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
 

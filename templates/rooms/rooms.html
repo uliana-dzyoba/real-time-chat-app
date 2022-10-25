@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="p-10 lg:p-20 text-center">
-    <h1 class="text-3xl lg:text-6xl text-white">Rooms</h1>
+    <h1 class="text-3xl lg:text-6xl text-teal-800 dark:text-gray-200">Rooms</h1>
 </div>
 
 <div class="w-full flex flex-wrap items-center justify-center">
@@ -21,7 +21,7 @@
                     <img src="{% if chat.message.user.userprofile.profile_pic %}{{chat.message.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
                         alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
                 </div>
-                <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-red-300 text-white">
+                <div class=" px-2 py-1 mt-1 mr-20 rounded-xl bg-orange-peel text-white">
                     <div class="font-bold"><p>{{ chat.message.user.username }}</p></div>
                     <div><p>{% if chat.message.content|length > 40 %}{{ chat.message.content|slice:":40" }}...{% else %}{{ chat.message.content }}{% endif %}</p></div>
                     <div class="float-right"><p class="text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div>

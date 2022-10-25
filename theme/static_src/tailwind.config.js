@@ -42,7 +42,17 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'light-cyan': '#CBF3F0',
+                'tiffany-blue': '#2EC4B6',
+                'celadon-blue': '#0081A7',
+                'mellow-apricot': '#FFBF69'
+            },
+        },
+        // colors: {
+
+        // },
     },
     plugins: [
         /**
@@ -50,7 +60,7 @@ module.exports = {
          * for forms. If you don't like it or have own styling for forms,
          * comment the line below to disable '@tailwindcss/forms'.
          */
-        require('@tailwindcss/forms'),
+        // require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require('@tailwindcss/line-clamp'),
         require('@tailwindcss/aspect-ratio'),

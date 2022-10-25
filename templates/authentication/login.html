@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="p-10 lg:pt-10 pb-1 text-center">
-    <h1 class="text-3xl lg:text-4xl text-white">Log In</h1>
+    <h1 class="text-3xl lg:text-4xl text-teal-800 dark:text-gray-200">Log In</h1>
 </div>
 
 <form method="post" action="." class="flex flex-col justify-center items-center lg:w-1/4 px-4 mx-auto">
@@ -35,6 +35,7 @@
         {% endfor %}
     {% endif %}
 
-    <button class="w-full mt-1 px-5 py-3 rounded-xl text-white bg-teal-800 hover:bg-teal-700">Submit</button>
+    <button class="w-full mt-1 px-5 py-3 rounded-xl text-white bg-teal-500 hover:bg-teal-600 
+    dark:bg-teal-600 dark:hover:bg-teal-500">Submit</button>
 </form>
 {% endblock %}

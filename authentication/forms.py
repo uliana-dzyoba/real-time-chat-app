@@ -18,7 +18,6 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    # profile_pic = forms.ImageField(required=False)
 
     class Meta:
         model = UserProfile

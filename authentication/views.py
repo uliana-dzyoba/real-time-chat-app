@@ -28,6 +28,7 @@ class ProfileDetailView(DetailView):
     context_object_name = 'user'
     model = User
 
+    # get user from username string in url
     def get_object(self):
         return get_object_or_404(User, username=self.kwargs['username'])
 

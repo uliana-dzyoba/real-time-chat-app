@@ -16,7 +16,7 @@
                 <img src="{% if chat.receiver.userprofile.profile_pic %}{{chat.receiver.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
                     alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
             </div>
-            <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-red-300 text-white">
+            <div class="px-2 py-1 mt-1 mr-20 rounded-xl bg-orange-peel text-white">
                 <div class="font-bold"><p>{{ chat.receiver.username }}</p></div>
                 <div>
                     <span class="font-bold">{% if request.user.username == chat.message.user.username %}Me: {% endif %}</span>
