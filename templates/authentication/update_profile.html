@@ -28,8 +28,8 @@
     </div>
 
     <div class="w-full mb-3">
-        <label class="text-white">First name</label>
-        <input type="text" name="first_name" value="{{request.user.first_name}}" class="w-full mt-2 px-4 py-2 rounded-xl">
+        <label for="first_name" class="text-white">First name</label>
+        <input type="text" name="first_name" id="first_name" value="{{request.user.first_name}}" class="w-full mt-2 px-4 py-2 rounded-xl">
         {% for error in user_profile_form.first_name.errors %}
             <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
                 <p>{{ error|escape }}</p>
@@ -38,8 +38,8 @@
     </div>
 
     <div class="w-full mb-3">
-        <label class="text-white">Last name</label>
-        <input type="text" name="last_name" value="{{request.user.last_name}}" class="w-full mt-2 px-4 py-2 rounded-xl">
+        <label for="last_name" class="text-white">Last name</label>
+        <input type="text" name="last_name" id="last_name" value="{{request.user.last_name}}" class="w-full mt-2 px-4 py-2 rounded-xl">
         {% for error in user_profile_form.last_name.errors %}
             <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
                 <p>{{ error|escape }}</p>
@@ -48,8 +48,8 @@
     </div>
 
     <div class="w-full mb-3">
-        <label class="text-white">Email</label>
-        <input type="email" name="email" value="{{request.user.email}}" class="w-full mt-2 px-4 py-2 rounded-xl">
+        <label for="email" class="text-white">Email</label>
+        <input type="email" name="email" id="email" value="{{request.user.email}}" class="w-full mt-2 px-4 py-2 rounded-xl">
         {% for error in user_profile_form.email.errors %}
             <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
                 <p>{{ error|escape }}</p>
@@ -58,8 +58,8 @@
     </div>
 
     <div class="w-full mb-3">
-        <label class="text-white">Phone number</label>
-        <input type="tel" name="phone_number" value="{{request.user.userprofile.phone_number|default:''}}"
+        <label for="phone_number" class="text-white">Phone number</label>
+        <input type="tel" name="phone_number" id="phone_number" value="{{request.user.userprofile.phone_number|default:''}}"
                class="w-full mt-2 px-4 py-2 rounded-xl">
         {% for error in user_profile_form.phone_number.errors %}
             <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
@@ -69,8 +69,8 @@
     </div>
 
     <div class="w-full mb-3">
-        <label class="text-white">Bio</label>
-        <input type="text" name="bio" value="{{request.user.userprofile.bio}}" class="w-full mt-2 px-4 py-2 rounded-xl">
+        <label for="bio" class="text-white">Bio</label>
+        <input type="text" name="bio" id="bio" value="{{request.user.userprofile.bio}}" class="w-full mt-2 px-4 py-2 rounded-xl">
         {% for error in user_profile_form.bio.errors %}
             <div class="mt-1 px-2 py-1 rounded-xl bg-red-300 text-white">
                 <p>{{ error|escape }}</p>
