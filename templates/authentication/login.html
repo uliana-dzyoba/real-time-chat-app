@@ -11,13 +11,13 @@
     {% csrf_token %}
 
     <div class="w-full mb-3">
-        <label for="username" class="text-white">Username</label>
-        <input type="text" name="username" id="username" class="w-full mt-2 px-4 py-2 rounded-xl">
+        <label for="username" class="text-teal-800 dark:text-gray-200">Username</label>
+        <input type="text" name="username" id="username" class="w-full mt-2 px-4 py-2 rounded-xl dark:bg-gray-200">
     </div>
 
     <div class="w-full mb-3">
-        <label for="password" class="text-white">Password</label>
-        <input type="password" name="password" id="password" class="w-full mt-2 px-4 py-2 rounded-xl">
+        <label for="password" class="text-teal-800 dark:text-gray-200">Password</label>
+        <input type="password" name="password" id="password" class="w-full mt-2 px-4 py-2 rounded-xl dark:bg-gray-200">
     </div>
 
     {% if form.errors %}

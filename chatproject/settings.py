@@ -33,7 +33,7 @@ INTERNAL_IPS = [
 ALLOWED_HOSTS = []
 
 LOGIN_URL = 'authentication:login'
-LOGIN_REDIRECT_URL = 'chats:rooms'
+LOGIN_REDIRECT_URL = 'main:frontpage'
 LOGOUT_REDIRECT_URL = 'main:frontpage'
 
 # Application definition
@@ -86,6 +86,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'chatproject.wsgi.application'
 ASGI_APPLICATION = "chatproject.asgi.application"
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',

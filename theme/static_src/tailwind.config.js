@@ -47,7 +47,9 @@ module.exports = {
                 'light-cyan': '#CBF3F0',
                 'tiffany-blue': '#2EC4B6',
                 'celadon-blue': '#0081A7',
-                'mellow-apricot': '#FFBF69'
+                'mellow-apricot': '#FFBF69',
+                'teal-blue': '#08A4B2',
+                'dteal-blue': '#0E8390'
             },
         },
         // colors: {
