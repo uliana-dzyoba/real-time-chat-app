@@ -42,10 +42,8 @@ def get_private_chat(request, username):
     receiver = get_object_or_404(User, username=username)
     first, second = sorted([sender.username, receiver.username])
     slug = first + second
-    room_qs = Room.objects.filter(slug=slug)
-    if room_qs.exists():
-        room = room_qs[0]
-    else:
+    room = Room.objects.filter(slug=slug).first()
+    if not room:
         name = first.capitalize() + second.capitalize()
         room = Room.objects.create(name=name, slug=slug, private_chat=True)
     messages = Message.objects.filter(room=room)[0:25:-1]
