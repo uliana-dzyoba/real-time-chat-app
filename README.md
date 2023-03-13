@@ -24,3 +24,8 @@ JavaScript
 [JavaScript-url]: https://www.javascript.com/
 [PostgreSQL]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
 [PostgreSQL-url]: https://www.postgresql.org/
+
+
+Attributions
+<a href="https://www.flaticon.com/free-icons/mode" title="mode icons">Mode icons created by GOFOX - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/dark" title="dark icons">Dark icons created by GOFOX - Flaticon</a>
