@@ -29,3 +29,6 @@ JavaScript
 Attributions
 <a href="https://www.flaticon.com/free-icons/mode" title="mode icons">Mode icons created by GOFOX - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/dark" title="dark icons">Dark icons created by GOFOX - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/speak" title="speak icons">Speak icons created by juicy_fish - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/conversation" title="conversation icons">Conversation icons created by juicy_fish - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/topics" title="topics icons">Topics icons created by juicy_fish - Flaticon</a>
