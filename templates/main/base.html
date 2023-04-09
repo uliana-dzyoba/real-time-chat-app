@@ -62,8 +62,8 @@
             <div class="flex items-center lg:space-x-4 md:space-x-3 space-x-2 text-sm md:text-base">
                 {% if request.user.is_authenticated %}
                     <!-- <a href="{% url 'chats:rooms' %}" class="hidden md:inline font-semibold text-white hover:text-gray-200">Rooms</a> -->
-                    <a href="{% url 'chats:rooms' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'main/images/rooms.png' %}" alt="" class="inline md:hidden dark:hidden w-6"><img src="{% static 'main/images/rooms_dark.png' %}" alt="" class="hidden dark:inline md:hidden w-6"><span class="hidden md:inline">Rooms</span></a>
-                    <a href="{% url 'chats:private_chats' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'main/images/chats.png' %}" alt="" class="inline md:hidden dark:hidden w-6 ml-1.5 mr-2"><img src="{% static 'main/images/chats_dark.png' %}" alt="" class="hidden dark:inline md:hidden w-6 ml-1.5 mr-2"><span class="hidden md:inline">Private Chats</span></a>
+                    <a href="{% url 'chats:rooms' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'main/images/rooms.png' %}" alt="" class="inline md:hidden dark:hidden w-6"><img src="{% static 'main/images/rooms_dark.png' %}" alt="" class="hidden dark:inline md:dark:hidden w-6"><span class="hidden md:inline">Rooms</span></a>
+                    <a href="{% url 'chats:private_chats' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'main/images/chats.png' %}" alt="" class="inline md:hidden dark:hidden w-6 ml-1.5 mr-2"><img src="{% static 'main/images/chats_dark.png' %}" alt="" class="hidden dark:inline md:dark:hidden w-6 ml-1.5 mr-2"><span class="hidden md:inline">Private Chats</span></a>
                     <a href="{% url 'authentication:logout' %}" class="lg:px-5 px-2 lg:py-3 py-1 rounded-xl font-semibold text-white bg-teal-600 hover:bg-teal-700 dark:bg-teal-600  
                     dark:hover:bg-teal-500">Log Out</a>
                 {% else %}
