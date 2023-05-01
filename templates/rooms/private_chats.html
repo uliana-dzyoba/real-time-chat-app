@@ -5,22 +5,22 @@
 {% block title %}Chats | {% endblock %}
 
 {% block content %}
-<div class="pt-5 md:pt-9 lg:pt-14 pb-4 md:pb-7 lg:pb-12 text-center">
-    <h1 class="text-2xl md:text-3xl lg:text-5xl text-teal-800 dark:text-gray-200">Private Chats</h1>
+<div class=" lg:pt-14 md:pt-9 pt-5 lg:pb-11 md:pb-7 pb-4 text-center">
+    <h1 class="lg:text-5xl md:text-3xl text-2xl text-teal-800 dark:text-gray-200">Private Chats</h1>
 </div>
 
 <div class="lg:w-2/4 mx-3 md:mx-4 lg:mx-auto text-sm md:text-base">
     {% for chat in chats %}
-        <div class="flex flex-row px-1 md:px-2 py-1.5 md:py-2 mb-2 bg-cyan-600  dark:bg-cyan-700 text-white dark:text-gray-100 rounded-xl cursor-pointer"  onclick="location.href='{% url "chats:private_chat" chat.receiver.username  %}'">
+        <div class="flex flex-row overflow-x-hidden px-1 md:px-2 py-1.5 md:py-2 mb-2 bg-cyan-600  dark:bg-cyan-700 text-white dark:text-gray-100 rounded-xl cursor-pointer"  onclick="location.href='{% url "chats:private_chat" chat.receiver.username  %}'">
             <div class="mx-1 h-16 md:h-20" style="aspect-ratio: 1/1;">
                 <img src="{% if chat.receiver.userprofile.profile_pic %}{{chat.receiver.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
-                    alt="profile_pic" class="w-full rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                    alt="profile_pic" class="rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
             </div>
             <div class="px-2 py-1 mt-1 mr-5 lg:mr-20">
                 <div class="font-bold"><p>{{ chat.receiver.username }}</p></div>
                 <div>
                     <span class="font-bold">{% if request.user.username == chat.message.user.username %}Me: {% endif %}</span>
-                    <span>{% if chat.message.content|length > 80 %}{{ chat.message.content|slice:":80" }}...{% else %}{{ chat.message.content }}{% endif %}</span>
+                    <span>{{ chat.message.content|truncatechars:80 }}</span>
                 </div>
             </div> 
             <div class="flex flex-grow"><div class="mt-auto ml-auto"><p class="mr-1.5 md:mr-3 mb-1 md:mb-2 text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div></div>

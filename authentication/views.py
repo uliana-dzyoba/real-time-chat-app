@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from .forms import SignUpForm, UserForm, UserProfileForm
 
 
-default_pfp = 'authentication/images/default-avatar.jpg'
+default_pfp = 'images/default-avatar.jpg'
 
 
 class SignUpFormView(FormView):
@@ -29,7 +29,7 @@ class ProfileDetailView(DetailView):
     model = User
 
     # get user from username string in url
-    def get_object(self):
+    def get_object(self, queryset=None):
         return get_object_or_404(User, username=self.kwargs['username'])
 
     def get_context_data(self, **kwargs):
@@ -52,4 +52,4 @@ def update_profile(request):
         user_form = UserForm(instance=request.user)
         user_profile_form = UserProfileForm(instance=request.user.userprofile)
     return render(request, "authentication/update_profile.html", {"user_form": user_form, "user_profile_form": user_profile_form,
-                                                           "dpfp": default_pfp})
+                   "dpfp": default_pfp})

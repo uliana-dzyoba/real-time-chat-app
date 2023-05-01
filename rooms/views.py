@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 
 from .models import Room, Message
 
-default_pfp = 'rooms/images/default-avatar.jpg'
+default_pfp = 'images/default-avatar.jpg'
 
+NUMBER_OF_MESSAGES = 25
 
 @login_required
 def list_rooms(request):
@@ -20,7 +21,7 @@ def list_rooms(request):
 @login_required
 def get_room(request, slug):
     room = get_object_or_404(Room, slug=slug)
-    messages = Message.objects.filter(room=room)[0:25:-1]
+    messages = room.messages.all()[0:NUMBER_OF_MESSAGES:-1]
     return render(request, 'rooms/room.html', {'room': room, 'messages': messages, "dpfp": default_pfp})
 
 
@@ -46,5 +47,5 @@ def get_private_chat(request, username):
     if not room:
         name = first.capitalize() + second.capitalize()
         room = Room.objects.create(name=name, slug=slug, private_chat=True)
-    messages = Message.objects.filter(room=room)[0:25:-1]
+    messages = room.messages.all()[0:NUMBER_OF_MESSAGES:-1]
     return render(request, 'rooms/room.html', {'room': room, 'username': username, 'messages': messages, "dpfp": default_pfp})

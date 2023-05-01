@@ -13,11 +13,11 @@ class UserProfileInline(admin.StackedInline):
 class AccountsUserAdmin(AuthUserAdmin):
     def add_view(self, *args, **kwargs):
         self.inlines =[]
-        return super(AccountsUserAdmin, self).add_view(*args, **kwargs)
+        return super().add_view(*args, **kwargs)
 
     def change_view(self, *args, **kwargs):
         self.inlines =[UserProfileInline]
-        return super(AccountsUserAdmin, self).change_view(*args, **kwargs)
+        return super().change_view(*args, **kwargs)
 
 
 admin.site.unregister(User)

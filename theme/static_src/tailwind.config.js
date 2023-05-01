@@ -52,9 +52,6 @@ module.exports = {
                 'dteal-blue': '#0E8390'
             },
         },
-        // colors: {
-
-        // },
     },
     plugins: [
         /**

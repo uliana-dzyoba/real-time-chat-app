@@ -25,14 +25,14 @@
             }
           </script>
 
-        <style>
+        <style>          
             .messages {
                 height: 400px;
                 overflow-y: auto;
             }
 
             .switch-ball {
-                background-image: url({% static 'main/images/sun.png' %});
+                background-image: url({% static 'images/sun.png' %});
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -41,7 +41,7 @@
             }
 
             #checkbox:checked + label .switch-ball {
-                background-image: url({% static 'main/images/moon.png' %});
+                background-image: url({% static 'images/moon.png' %});
             }
 
             @media (min-width: 1024px) {
@@ -49,21 +49,19 @@
                     transform: translateX(50px);
                 }
             }
-}
         </style>
     </head>
 
     <body class="bg-light-cyan dark:bg-teal-900">
-        <nav class="flex items-baseline md:items-center justify-between md:px-4 px-3 lg:py-5 py-3 bg-tiffany-blue dark:bg-teal-700">
+        <nav class="flex items-center md:items-center justify-between md:px-4 px-3 lg:py-5 py-3 bg-tiffany-blue dark:bg-teal-700">
             <div>
                 <a href="/" class="md:text-xl lg:text-2xl text-base text-white font-bold">Chat</a>
             </div>
-
             <div class="flex items-center lg:space-x-4 md:space-x-3 space-x-2 text-sm md:text-base">
                 {% if request.user.is_authenticated %}
                     <!-- <a href="{% url 'chats:rooms' %}" class="hidden md:inline font-semibold text-white hover:text-gray-200">Rooms</a> -->
-                    <a href="{% url 'chats:rooms' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'main/images/rooms.png' %}" alt="" class="inline md:hidden dark:hidden w-6"><img src="{% static 'main/images/rooms_dark.png' %}" alt="" class="hidden dark:inline md:dark:hidden w-6"><span class="hidden md:inline">Rooms</span></a>
-                    <a href="{% url 'chats:private_chats' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'main/images/chats.png' %}" alt="" class="inline md:hidden dark:hidden w-6 ml-1.5 mr-2"><img src="{% static 'main/images/chats_dark.png' %}" alt="" class="hidden dark:inline md:dark:hidden w-6 ml-1.5 mr-2"><span class="hidden md:inline">Private Chats</span></a>
+                    <a href="{% url 'chats:rooms' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'images/rooms.png' %}" alt="" class="inline md:hidden dark:hidden w-6"><img src="{% static 'images/rooms_dark.png' %}" alt="" class="hidden dark:inline md:dark:hidden w-6"><span class="hidden md:inline">Rooms</span></a>
+                    <a href="{% url 'chats:private_chats' %}" class="font-semibold text-white hover:text-gray-200"><img src="{% static 'images/chats.png' %}" alt="" class="inline md:hidden dark:hidden w-6 ml-1.5 mr-2"><img src="{% static 'images/chats_dark.png' %}" alt="" class="hidden dark:inline md:dark:hidden w-6 ml-1.5 mr-2"><span class="hidden md:inline">Private Chats</span></a>
                     <a href="{% url 'authentication:logout' %}" class="lg:px-5 px-2 lg:py-3 py-1 rounded-xl font-semibold text-white bg-teal-600 hover:bg-teal-700 dark:bg-teal-600  
                     dark:hover:bg-teal-500">Log Out</a>
                 {% else %}
@@ -80,6 +78,12 @@
                       </div>
                     </label>
                 </div>
+                {% if request.user.is_authenticated %}
+                <div class="lg:h-10 h-6 mx-1 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:update_profile" %}';">
+                    <img src="{% if request.user.userprofile.profile_pic %}{{request.user.userprofile.profile_pic.url}}{% else %}{% static 'images/default-avatar.jpg' %}{% endif %}"
+                        alt="profile_pic" class="rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                </div>
+                {% endif %}
             </div>
         </nav>
 

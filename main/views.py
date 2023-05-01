@@ -1,20 +1,20 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 
-from rooms.models import Room, Message
+from rooms.models import Message
 
-default_pfp = 'rooms/images/default-avatar.jpg'
+default_pfp = 'images/default-avatar.jpg'
 
+NUMBER_OF_MESSAGES = 5
 
 # Create your views here.
 def get_frontpage(request):
     if request.user.is_authenticated:
-        messages = Message.objects.filter(user=request.user)[0:5:-1]
-        room_list = [message.room for message in messages]
-        rooms = set(room_list)
+        messages = Message.objects.filter(user=request.user)[0:NUMBER_OF_MESSAGES:-1]
+        rooms = set([message.room for message in messages])
         chats = []
         for room in rooms:
-            message = Message.objects.filter(room=room).first()
+            message = room.messages.all().first()
             if room.private_chat:
                 username = room.slug.replace(request.user.username, '')
                 receiver = User.objects.get(username=username)

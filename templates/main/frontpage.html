@@ -5,48 +5,53 @@
 {% block title %}Welcome | {% endblock %}
 
 {% block content %}
-<div class="mb-0 lg:pt-20 md:pt-14 pt-6 lg:pb-10 md:pb-7 pb-3 text-center">
+<div class="mb-0 lg:pt-20 md:pt-14 pt-6 lg:pb-7 md:pb-4 pb-1.5 text-center">
     <h1 class="lg:text-6xl md:text-4xl text-2xl text-teal-800 dark:text-gray-200">Real-Time Chat App</h1>
 </div>
-
-<div class="lg:w-2/4 mx-3 md:mx-4 lg:mx-auto text-sm md:text-base">
-    {% if request.user.is_authenticated %}
-        {% for chat in chats %}
-            {% if chat.private %}
-                <div class="flex flex-row mb-2 md:mb-3 px-1 md:px-2 py-1.5 md:py-2 bg-cyan-600  dark:bg-cyan-700 text-white dark:text-gray-100 rounded-xl cursor-pointer"  onclick="location.href='{% url "chats:private_chat" chat.receiver.username  %}'">
-                    <div class="mx-1 h-16 md:h-20" style="aspect-ratio: 1/1;">
-                        <img src="{% if chat.receiver.userprofile.profile_pic %}{{chat.receiver.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
-                            alt="profile_pic" class="w-full rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
-                    </div>
-                    <div class="mt-1 mr-5 lg:mr-20 px-2 py-1">
-                        <div class="font-bold"><p>{{ chat.receiver.username }}</p></div>
-                        <div>
-                            <span class="font-bold">{% if request.user.username == chat.message.user.username %}Me: {% endif %}</span>
-                            <span>{% if chat.message.content|length > 80 %}{{ chat.message.content|slice:":80" }}...{% else %}{{ chat.message.content }}{% endif %}</span>
-                        </div>
-                    </div>
-                    <div class="flex flex-grow"><div class="float-right mt-auto ml-auto"><p class="mr-1.5 md:mr-3 mb-1 md:mb-2 text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div></div>
-                </div>
-            {% else %}
-                <div class="flex flex-row mb-2 md:mb-3 px-1 md:px-2 py-1.5 md:py-2 bg-teal-blue dark:bg-dteal-blue text-white dark:text-gray-100 rounded-xl cursor-pointer"  onclick="location.href='{% url "chats:room" chat.room.slug  %}'">
-                    <div class="mx-1 h-16 md:h-20" style="aspect-ratio: 1/1;">
-                        <img src="{% if chat.message.user.userprofile.profile_pic %}{{chat.message.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
-                            alt="profile_pic" class="w-full rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
-                    </div>
-                    <div class="mt-1 mr-5 lg:mr-20 px-2 py-1">
-                        <div class="font-bold"><p>{{ chat.room.name }}</p></div>
-                        <div>
-                            <span>{% if chat.message.content|length > 80 %}{{ chat.message.content|slice:":80" }}...{% else %}{{ chat.message.content }}{% endif %}</span>
-                        </div>
-                    </div>
-                    <div class="flex flex-grow"><div class="float-right mt-auto ml-auto"><p class="mr-1.5 md:mr-3 mb-1 md:mb-2 text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div></div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <div>
-            Log in to message in Rooms or start a Private Chat
+{% if request.user.is_authenticated %}
+    <div>
+        <div class="lg:pb-5 md:pb-3.5 pb-2 text-center">
+            <h2 class="lg:text-4xl md:text-2xl text-lg text-teal-800 dark:text-gray-200">Latest messages</h2>
         </div>
-    {% endif %}
-</div>
+        <div class="lg:w-2/4 mx-3 lg:mx-auto md:mx-4 text-sm md:text-base">
+            {% for chat in chats %}
+                {% if chat.private %}
+                    <div class="flex flex-row overflow-x-hidden mb-2 md:mb-3 px-1 md:px-2 py-1.5 md:py-2 bg-cyan-600  dark:bg-cyan-700 text-white dark:text-gray-100 rounded-xl cursor-pointer"  onclick="location.href='{% url "chats:private_chat" chat.receiver.username  %}'">
+                        <div class="mx-1 h-16 md:h-20" style="aspect-ratio: 1/1;">
+                            <img src="{% if chat.receiver.userprofile.profile_pic %}{{chat.receiver.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
+                                alt="profile_pic" class="rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                        </div>
+                        <div class="mt-1 mr-5 lg:mr-20 px-2 py-1">
+                            <div class="font-bold"><p>{{ chat.receiver.username }}</p></div>
+                            <div>
+                                <span class="font-bold">{% if request.user.username == chat.message.user.username %}Me: {% endif %}</span>
+                                <span>{{ chat.message.content|truncatechars:80 }}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-grow"><div class="float-right mt-auto ml-auto"><p class="mr-1.5 md:mr-3 mb-1 md:mb-2 text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div></div>
+                    </div>
+                {% else %}
+                    <div class="flex flex-row overflow-x-hidden mb-2 md:mb-3 px-1 md:px-2 py-1.5 md:py-2 bg-teal-blue dark:bg-dteal-blue text-white dark:text-gray-100 rounded-xl cursor-pointer"  onclick="location.href='{% url "chats:room" chat.room.slug  %}'">
+                        <div class="mx-1 h-16 md:h-20" style="aspect-ratio: 1/1;">
+                            <img src="{% if chat.message.user.userprofile.profile_pic %}{{chat.message.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
+                                alt="profile_pic" class="rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                        </div>
+                        <div class="mt-1 mr-5 lg:mr-20 px-2 py-1">
+                            <div class="font-bold"><p>{{ chat.room.name }}</p></div>
+                            <div>
+                                <span>{{ chat.message.content|truncatechars:80 }}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-grow"><div class="float-right mt-auto ml-auto"><p class="mr-1.5 md:mr-3 mb-1 md:mb-2 text-xs">{{ chat.message.date_added|date:'H:i' }}</p></div></div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <div>
+        <p>Log in to message in Rooms or start a Private Chat</p>
+        <p><a href="https://github.com/uliana-dzyoba">Check out my other projects on GitHub</a></p>
+    </div>
+{% endif %}
 {% endblock %}
