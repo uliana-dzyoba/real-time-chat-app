@@ -5,15 +5,15 @@
 {% block title %}Profile | {% endblock %}
 
 {% block content %}
-<div class="lg:px-10 md:px-6 px-2 lg:pt-10 md:pt-6 pt-3.5 lg:pb-2 md:pb-1.5 pb-1">
+<div class="lg:px-10 md:px-6 px-3 lg:pt-10 md:pt-6 pt-3.5 lg:pb-2 md:pb-1.5 pb-1">
     <div class="lg:h-10 lg:w-10 md:h-9 md:w-9 h-8 w-8 inline-block float-left cursor-pointer" onclick="location.href='{{ request.META.HTTP_REFERER }}'">
         <svg class="fill-teal-600 hover:fill-teal-700 dark:fill-teal-600 dark:hover:fill-teal-500" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" height: auto; width: auto; xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28,14H8.8l4.62-4.62C13.814,8.986,14,8.516,14,8c0-0.984-0.813-2-2-2c-0.531,0-0.994,0.193-1.38,0.58l-7.958,7.958  C2.334,14.866,2,15.271,2,16s0.279,1.08,0.646,1.447l7.974,7.973C11.006,25.807,11.469,26,12,26c1.188,0,2-1.016,2-2  c0-0.516-0.186-0.986-0.58-1.38L8.8,18H28c1.104,0,2-0.896,2-2S29.104,14,28,14z"/></svg>
     </div>
     <h1 class="text-center lg:text-4xl md:text-3xl text-2xl text-teal-800 dark:text-gray-200  md:mx-10 mx-9">{{user.first_name}} {{user.last_name}}</h1>
 </div>
 <div class="flex w-full justify-center">
-    <div class="flex flex-col justify-center items-center lg:w-2/4 w-3/4 px-4">
-        <div class="sm:w-5/12 md:my-2 my-1.5 cursor-pointer" style="aspect-ratio: 1/1;">
+    <div class="flex flex-col justify-center items-center px-5">
+        <div class="lg:w-72 md:w-64 w-56 md:my-2 my-1.5" style="aspect-ratio: 1/1;">
             <img src="{% if user.userprofile.profile_pic %}{{user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
                 alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
         </div>

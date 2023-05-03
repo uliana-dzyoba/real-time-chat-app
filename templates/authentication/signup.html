@@ -3,59 +3,83 @@
 {% block title %}Sign Up | {% endblock %}
 
 {% block content %}
-<div class="p-10 lg:pt-10 pb-1 text-center">
-    <h1 class="text-3xl lg:text-4xl text-teal-800 dark:text-gray-200">Sign Up</h1>
+<div class="lg:pt-10 md:pt-7 pt-5 md:pb-0.5 text-center">
+    <h1 class="lg:text-4xl md:text-3xl text-2xl text-teal-800 dark:text-gray-200">Sign Up</h1>
 </div>
+<div class="flex w-full justify-center">
+    <form method="post" action="." class="flex flex-col justify-center items-center lg:w-96 md:w-80 md:px-0 px-5">
+        {% csrf_token %}
 
-<form method="post" action="." class="flex flex-col justify-center items-center lg:w-1/4 px-4 mx-auto">
-    {% csrf_token %}
-
-    <div class="w-full mb-3">
-        <label for="username" class="font-medium text-teal-800 dark:text-gray-200">Username</label>
-        <input type="text" name="username" id="username" class="w-full px-4 py-2 mt-2 rounded-xl dark:bg-gray-200">
-    </div>
-
-    <div class="w-full mb-3">
-        <label for="first_name" class="font-medium text-teal-800 dark:text-gray-200">First name</label>
-        <input type="text" name="first_name" id="first_name" class="w-full px-4 py-2 mt-2 rounded-xl dark:bg-gray-200">
-    </div>
-
-    <div class="w-full mb-3">
-        <label for="last_name" class="font-medium text-teal-800 dark:text-gray-200">Last name</label>
-        <input type="text" name="last_name" id="last_name" class="w-full px-4 py-2 mt-2 rounded-xl dark:bg-gray-200">
-    </div>
-
-    <div class="w-full mb-3">
-        <label for="email" class="font-medium text-teal-800 dark:text-gray-200">Email</label>
-        <input type="email" name="email" id="email" class="w-full px-4 py-2 mt-2 rounded-xl dark:bg-gray-200">
-    </div>
-
-    <div class="w-full mb-3">
-        <label for="password1" class="font-medium text-teal-800 dark:text-gray-200">Password</label>
-        <input type="password" name="password1" id="password1" class="w-full px-4 py-2 mt-2 rounded-xl dark:bg-gray-200">
-    </div>
-
-    <div class="w-full mb-4">
-        <label for="password2" class="font-medium text-teal-800 dark:text-gray-200">Confirm password</label>
-        <input type="password" name="password2" id="password2" class="w-full px-4 py-2 mt-2 rounded-xl dark:bg-gray-200">
-    </div>
-
-    {% if form.errors %}
-        {% for field in form %}
-            {% for error in field.errors %} 
-                <div class="p-4 mb-4 rounded-xl bg-red-300 text-white">
-                    <p>{{ error|escape }}</p>
-                </div>
-            {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %} 
-            <div class="p-4 mb-4 rounded-xl bg-red-300 text-white">
+        <div class="w-full">
+            <label for="username" class="font-medium md:text-base text-sm text-teal-800 dark:text-gray-200">Username</label>
+            <input type="text" name="username" id="username" class="w-full md:py-2 py-1 px-2 md:mt-1.5 mt-0.5 rounded-lg dark:bg-gray-200">
+        </div>
+        {% for error in form.username.errors %} 
+            <div class="md:text-base text-sm mr-auto md:py-2 py-1 px-2 md:mt-2 mt-1.5 rounded-lg bg-red-300 text-white">
                 <p>{{ error|escape }}</p>
             </div>
         {% endfor %}
-    {% endif %}
 
-    <button class="w-full mt-1 px-5 py-3 rounded-xl text-white bg-teal-500 hover:bg-teal-600 
-    dark:bg-teal-600 dark:hover:bg-teal-500">Submit</button>
-</form>
+        <div class="w-full md:mt-3 mt-1.5">
+            <label for="first_name" class="font-medium md:text-base text-sm text-teal-800 dark:text-gray-200">First name</label>
+            <input type="text" name="first_name" id="first_name" class="w-full md:py-2 py-1 px-2 md:mt-1.5 mt-0.5 rounded-lg dark:bg-gray-200">
+        </div>
+        {% for error in form.first_name.errors %} 
+            <div class="md:text-base text-sm mr-auto md:py-2 py-1 px-2 md:mt-2 mt-1.5 rounded-lg bg-red-300 text-white">
+                <p>{{ error|escape }}</p>
+            </div>
+        {% endfor %}
+
+        <div class="w-full md:mt-3 mt-1">
+            <label for="last_name" class="font-medium md:text-base text-sm text-teal-800 dark:text-gray-200">Last name</label>
+            <input type="text" name="last_name" id="last_name" class="w-full md:py-2 py-1 px-2 md:mt-1.5 mt-0.5 rounded-lg dark:bg-gray-200">
+        </div>
+        {% for error in form.last_name.errors %} 
+            <div class="md:text-base text-sm mr-auto md:py-2 py-1 px-2 md:mt-2 mt-1.5 rounded-lg bg-red-300 text-white">
+                <p>{{ error|escape }}</p>
+            </div>
+        {% endfor %}
+
+        <div class="w-full md:mt-3 mt-1">
+            <label for="email" class="font-medium md:text-base text-sm text-teal-800 dark:text-gray-200">Email</label>
+            <input type="email" name="email" id="email" class="w-full md:py-2 py-1 px-2 md:mt-1.5 mt-0.5 rounded-lg dark:bg-gray-200">
+        </div>
+        {% for error in form.email.errors %} 
+            <div class="md:text-base text-sm mr-auto md:py-2 py-1 px-2 md:mt-2 mt-1.5 rounded-lg bg-red-300 text-white">
+                <p>{{ error|escape }}</p>
+            </div>
+        {% endfor %}
+
+        <div class="w-full md:mt-3 mt-1">
+            <label for="password1" class="font-medium md:text-base text-sm text-teal-800 dark:text-gray-200">Password</label>
+            <input type="password" name="password1" id="password1" class="w-full md:py-2 py-1 px-2 md:mt-1.5 mt-0.5 rounded-lg dark:bg-gray-200">
+        </div>
+        {% for error in form.password1.errors %} 
+            <div class="md:text-base text-sm mr-auto md:py-2 py-1 px-2 md:mt-2 mt-1.5 rounded-lg bg-red-300 text-white">
+                <p>{{ error|escape }}</p>
+            </div>
+        {% endfor %}
+
+        <div class="w-full md:mt-3 mt-1">
+            <label for="password2" class="font-medium md:text-base text-sm text-teal-800 dark:text-gray-200">Confirm password</label>
+            <input type="password" name="password2" id="password2" class="w-full md:py-2 py-1 px-2 md:mt-1.5 mt-0.5 rounded-lg dark:bg-gray-200">
+        </div>
+        {% for error in form.password2.errors %} 
+            <div class="md:text-base text-sm mr-auto md:py-2 py-1 px-2 md:mt-2 mt-1.5 rounded-lg bg-red-300 text-white">
+                <p>{{ error|escape }}</p>
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %} 
+                <div class="md:text-base text-sm md:py-2 py-1 px-2 md:mt-2 mt-1.5 rounded-lg bg-red-300 text-white">
+                    <p>{{ error|escape }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <button class="w-full md:mt-3.5 mt-3 px-5 md:py-3 py-2.5 rounded-xl font-medium text-white dark:text-gray-100 bg-teal-500 hover:bg-teal-600 
+        dark:bg-teal-600 dark:hover:bg-teal-500">Submit</button>
+    </form>
+</div>
 {% endblock %}
