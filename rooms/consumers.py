@@ -1,4 +1,5 @@
 import json
+import asyncio
 from django.contrib.auth.models import User
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
@@ -9,8 +10,8 @@ from .models import Room, Message
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{room_name}'
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = f'chat_{self.room_name}'
 
         # Join room group
         await self.channel_layer.group_add(
@@ -27,21 +28,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
+        if close_code is not None and close_code != 1000:
+            await asyncio.sleep(5)
+            await self.connect()
+
     # Receive message from WebSocket
     async def receive(self, text_data):
         data = json.loads(text_data)
         message = data['message']
         username = data['username']
         pfp = data['pfp']
-        room = data['room']
 
-        await self.save_message(username, room, message)
+        await self.save_message(username, self.room_name, message)
 
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
-                'type': 'chat_message',
+                'type': 'chat.message',
                 'message': message,
                 'username': username,
                 'pfp': pfp,
