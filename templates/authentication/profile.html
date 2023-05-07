@@ -12,7 +12,7 @@
     <h1 class="text-center lg:text-4xl md:text-3xl text-2xl text-teal-800 dark:text-gray-200  md:mx-10 mx-9">{{user.first_name}} {{user.last_name}}</h1>
 </div>
 <div class="flex w-full justify-center">
-    <div class="flex flex-col justify-center items-center px-5">
+    <div class="flex flex-col items-center px-5">
         <div class="lg:w-72 md:w-64 w-56 md:my-2 my-1.5" style="aspect-ratio: 1/1;">
             <img src="{% if user.userprofile.profile_pic %}{{user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
                 alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>

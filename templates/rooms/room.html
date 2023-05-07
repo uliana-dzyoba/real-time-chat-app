@@ -2,69 +2,93 @@
 
 {% load static %}
 
+{% block style %}
+<style>
+
+    #chat {
+        height: 68vh;
+    }
+    
+    @media (min-width: 768px) {
+    #chat {
+        height: 62vh;
+    }
+
+    @media (min-width: 1024px) {
+    #chat {
+        height: 50vh;
+    }
+} 
+</style>
+{% endblock %}
+
 {% block title %}{{ room.name }} | {% endblock %}
 
 {% block content %}
-<div class="pt-5 md:pt-9 lg:pt-16 pb-4 md:pb-7 lg:pb-12 text-center">
+<div class="lg:pt-14 md:pt-9 pt-5 lg:pb-11 md:pb-7 pb-4 text-center">
     <h1 class="text-3xl lg:text-5xl text-teal-800 dark:text-gray-200">{{ username|default:room.name }}</h1>
 </div>
 
-<div class="lg:w-2/4 mx-4 lg:mx-auto text-sm md:text-base p-4 bg-white dark:bg-zinc-900 rounded-xl">
-    <div class="chat-messages space-y-3" id="chat-messages">
-        {% for m in messages %}
-            {% if request.user.username == m.user.username %}
-                <div class="flex flex-row justify-end">
-                    <div class="mt-1 ml-20 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-50">
-                        <div><p>{{ m.content }}</p></div>
-                        <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
+<div class="flex flex-col items-center">
+    <div class="lg:w-3/4 w-full px-5">
+        <div id="chat" class="w-full md:text-base text-sm lg:p-4 md:p-3 p-2 bg-white dark:bg-zinc-900 rounded-xl">
+            <div class="chat-messages max-h-full overflow-y-auto space-y-3" id="chat-messages">
+                {% for m in messages %}
+                    {% if request.user.username == m.user.username %}
+                        <div class="flex justify-end">
+                            <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-50">
+                                <div><p>{{ m.content }}</p></div>
+                                <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="flex">
+                            <div class="lg:h-20 md:h-16 h-10 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:profile" m.user.username %}';">
+                                <img src="{% if m.user.userprofile.profile_pic %}{{m.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
+                                    alt="profile_pic" class="w-full md:rounded-3xl rounded-2xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                            </div>
+                            <div class="mt-1 mx-1 mr-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-500 dark:bg-amber-600 text-white dark:text-gray-50">
+                                <div class="md:pb-1 pb-0.5 font-bold"><p>{{ m.user.username }}</p></div>
+                                <div><p>{{ m.content }}</p></div>
+                                <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
+                            </div> 
+                        </div>                  
+                    {% endif %}
+                {% endfor %}
+                <template id="mymessage">
+                    <div class="flex justify-end">
+                        <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-50">
+                            <div><p class="mycontent"></p></div>
+                            <div class="float-right"><p class="mytime text-xs"></p></div>
+                        </div>
                     </div>
-                </div>
-            {% else %}
-                <div class="flex flex-row">
-                    <div class="mx-1 h-20 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:profile" m.user.username %}';">
-                        <img src="{% if m.user.userprofile.profile_pic %}{{m.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
-                            alt="profile_pic" class="w-full rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                </template>
+                <template id="message">
+                    <div class="flex">
+                        <div class="pfpdiv lg:h-20 md:h-16 h-10 cursor-pointer" style="aspect-ratio: 1/1;">
+                            <img src="{% get_static_prefix %}{{dpfp}}" alt="profile_pic" class="pfp w-full md:rounded-3xl rounded-2xl" style="aspect-ratio: 1/1;
+                            object-fit: cover"/>
+                        </div>
+                        <div class="mt-1 mx-1 mr-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-500 dark:bg-amber-600 text-white dark:text-gray-50">
+                            <div class="md:pb-1 pb-0.5 font-bold"><p class="username"></p></div>
+                            <div><p class="content"></p></div>
+                            <div class="float-right"><p class="time text-xs"></p></div>
+                        </div>
                     </div>
-                    <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-amber-500 dark:bg-amber-600 text-white dark:text-gray-50">
-                        <div class="font-bold"><p>{{ m.user.username }}</p></div>
-                        <div><p>{{ m.content }}</p></div>
-                        <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
-                    </div> 
-                </div>                  
-            {% endif %}
-        {% endfor %}
-        <template id="mymessage">
-            <div class="flex flex-row justify-end">
-                <div class="mt-1 ml-20 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-50">
-                    <div><p class="mycontent"></p></div>
-                    <div class="float-right"><p class="mytime text-xs"></p></div>
-                </div>
+                </template>
             </div>
-        </template>
-        <template id="message">
-            <div class="flex flex-row">
-                <div class="pfpdiv mx-1 h-20 cursor-pointer" style="aspect-ratio: 1/1;">
-                    <img src="{% get_static_prefix %}{{dpfp}}" alt="profile_pic" class="pfp w-full rounded-3xl" style="aspect-ratio: 1/1;
-                     object-fit: cover"/>
-                </div>
-                <div class="mt-1 mr-20 px-2 py-1 rounded-xl bg-amber-500 dark:bg-amber-600 text-white dark:text-gray-50">
-                    <div class="font-bold"><p class="username"></p></div>
-                    <div><p class="content"></p></div>
-                    <div class="float-right"><p class="time text-xs"></p></div>
-                </div>
-            </div>
-        </template>
-    </div>
-</div>
+        </div>
 
-<div class="lg:w-2/4 mt-6 mb-6 mx-4 lg:mx-auto p-4 bg-white dark:bg-zinc-900 rounded-xl">
-    <form method="post" action="." class="flex">
-        <textarea type="text" name="content" class="flex-1 mr-3 dark:bg-zinc-900 dark:text-gray-50" placeholder="Your message..." rows="1" id="chat-message-input"></textarea>
-        <button class="px-5 py-3 rounded-xl text-white bg-teal-500 hover:bg-teal-600 
-        dark:bg-teal-600 dark:hover:bg-teal-500" id="chat-message-submit">
-            Submit
-        </button>
-    </form>
+        <div class="w-full md:mt-4 mt-3 lg:mx-auto lg:p-4 md:p-3 p-2 bg-white dark:bg-zinc-900 rounded-xl">
+            <form method="post" action="." class="flex">
+                <textarea type="text" name="content" autofocus="true" class="flex-grow px-1 lg:mr-3 md:mr-2.5 mr-1.5 rounded-lg outline-none dark:bg-zinc-900 dark:text-gray-50" placeholder="Your message..." rows="1" id="chat-message-input"></textarea>
+                <button class="md:px-5 px-4 md:py-3 py-2.5 rounded-xl font-medium text-white dark:text-gray-100 bg-teal-500 hover:bg-teal-600 
+                dark:bg-teal-600 dark:hover:bg-teal-500" id="chat-message-submit">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -92,10 +116,13 @@
         + '/'
     );
 
+    const messages = document.querySelector('#chat-messages');
+    const input = document.querySelector('#chat-message-input');
+    const submitBtn = document.querySelector('#chat-message-submit');
+
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
 
-        const messages = document.querySelector('#chat-messages');
         let clone;
         if (data.username === userName) {
             const template = document.querySelector('#mymessage');
@@ -113,11 +140,10 @@
             mtext.textContent = data.message;
             const mpfp = clone.querySelector(".pfp");
             if (data.pfp !== '') {
-                mpfp.src = data.pfp
+                mpfp.src = data.pfp;
             }
             const pfpl = clone.querySelector(".pfpdiv");
             const url = pfUrl.replace("user", data.username);
-            console.log(url)
             pfpl.setAttribute('onclick', `location.href="${url}"`);
             const mtime = clone.querySelector(".time");
             mtime.textContent = data.time;
@@ -128,24 +154,20 @@
     };
 
     chatSocket.onclose = function(e) {
-        console.log('onclose');
+        alert("Connection closed");
     }
 
-    input = document.querySelector('#chat-message-input');
-
-    input.focus();
     input.onkeydown = function(e) {
-        if (e.key == "Enter" && e.shiftKey) {
-            e.preventDefault();
-            input.value += "\n";
-        } 
-    };
+        if (e.key == "Enter" && !e.shiftKey) {
+            submitBtn.click();
+        }
+    };    
 
-    document.querySelector('#chat-message-submit').onclick = function(e) {
-        e.preventDefault()
+    submitBtn.addEventListener("click", function(e) {
+        e.preventDefault();
 
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
+        const messageInput = document.querySelector('#chat-message-input');
+        const message = messageInput.value;
         
         if (message) {
             chatSocket.send(JSON.stringify({
@@ -156,19 +178,20 @@
             }));
         }
 
-        messageInputDom.value = '';
+        document.querySelector('form').reset();
+        
+        return false;
+    });
 
-        return false
-    };
 
-
-    // A function for finding the messages element, and scroll to the bottom of it.
+    // Function for finding the messages element, and scrolling to the bottom of it.
     function scrollToBottom() {
-        let objDiv = document.getElementById("chat-messages");
-        objDiv.scrollTop = objDiv.scrollHeight;
+        // let objDiv = document.getElementById("chat-messages");
+        messages.scrollTop = messages.scrollHeight;
     }
 
     // To trigger the scroll on load.
     scrollToBottom();
+
 </script>
 {% endblock %}
