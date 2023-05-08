@@ -172,9 +172,7 @@
         if (message) {
             chatSocket.send(JSON.stringify({
                 'message': message,
-                'username': userName,
                 'pfp': userPfp,
-                /* 'room': roomName */
             }));
         }
 
