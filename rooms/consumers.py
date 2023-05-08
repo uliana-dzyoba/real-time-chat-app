@@ -1,14 +1,14 @@
 import json
 import asyncio
 from django.contrib.auth.models import User
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from asgiref.sync import sync_to_async
 from django.utils import timezone
 
 from .models import Room, Message
 
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
@@ -33,11 +33,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.connect()
 
     # Receive message from WebSocket
-    async def receive(self, text_data):
-        data = json.loads(text_data)
-        message = data['message']
-        username = data['username']
-        pfp = data['pfp']
+    async def receive_json(self, content):
+        message = content['message']
+        username = content['username']
+        pfp = content['pfp']
 
         await self.save_message(username, self.room_name, message)
 
@@ -54,19 +53,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        message = event['message']
-        username = event['username']
-        pfp = event['pfp']
         timestamp = timezone.localtime(timezone.now())
         time = timestamp.strftime("%H:%M")
+        content = {**event, 'time': time}
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message,
-            'username': username,
-            'pfp': pfp,
-            'time': time
-        }))
+        await self.send_json(content=content)
 
     @sync_to_async
     def save_message(self, username, room, message):
