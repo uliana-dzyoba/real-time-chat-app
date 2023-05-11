@@ -12,7 +12,7 @@ groups
 JavaScript
 
 ### Database Diagram
-![er](https://github.com/uliana-dzyoba/real-time-chat-app/blob/main/chatapp%20-%20public.png?raw=true)
+![er](https://raw.githubusercontent.com/uliana-dzyoba/real-time-chat-app/main/visuals/er.png)
 
 
 
