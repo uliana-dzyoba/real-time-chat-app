@@ -36,7 +36,7 @@
                 {% for m in messages %}
                     {% if request.user.username == m.user.username %}
                         <div class="flex justify-end">
-                            <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-50">
+                            <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-100">
                                 <div><p>{{ m.content }}</p></div>
                                 <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
                             </div>
@@ -57,7 +57,7 @@
                 {% endfor %}
                 <template id="mymessage">
                     <div class="flex justify-end">
-                        <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-50">
+                        <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-100">
                             <div><p class="mycontent"></p></div>
                             <div class="float-right"><p class="mytime text-xs"></p></div>
                         </div>
