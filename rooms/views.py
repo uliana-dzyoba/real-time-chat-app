@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from .models import Room, Message
 
-default_pfp = 'images/default-avatar.jpg'
+default_pfp = 'images/default_avatar.jpg'
 
 NUMBER_OF_MESSAGES = 25
 

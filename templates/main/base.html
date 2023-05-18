@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{% block title %}{% endblock %}Chat</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 
         {% tailwind_css %}
 
@@ -82,7 +83,7 @@
                 </div>
                 {% if request.user.is_authenticated %}
                 <div class="lg:h-10 h-6 mx-1 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:update_profile" %}';">
-                    <img src="{% if request.user.userprofile.profile_pic %}{{request.user.userprofile.profile_pic.url}}{% else %}{% static 'images/default-avatar.jpg' %}{% endif %}"
+                    <img src="{% if request.user.userprofile.profile_pic %}{{request.user.userprofile.profile_pic.url}}{% else %}{% static 'images/default_avatar.jpg' %}{% endif %}"
                         alt="profile_pic" class="rounded-2xl md:rounded-3xl" style="aspect-ratio: 1/1; object-fit: cover"/>
                 </div>
                 {% endif %}
