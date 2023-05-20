@@ -34,6 +34,8 @@ INTERNAL_IPS = [
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://chat-iifh.onrender.com']
+
 LOGIN_URL = 'authentication:login'
 LOGIN_REDIRECT_URL = 'main:frontpage'
 LOGOUT_REDIRECT_URL = 'authentication:login'
