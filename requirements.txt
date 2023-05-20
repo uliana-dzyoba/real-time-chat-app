@@ -5,7 +5,6 @@ async-timeout==4.0.2
 attrs==22.1.0
 autobahn==22.7.1
 Automat==20.2.0
-backports.zoneinfo==0.2.1
 binaryornot==0.4.4
 certifi==2022.9.24
 cffi==1.15.1
@@ -35,7 +34,7 @@ MarkupSafe==2.1.1
 msgpack==1.0.4
 phonenumbers==8.12.54
 Pillow==9.2.0
-psycopg2==2.9.3
+psycopg2-binary==2.9.6
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
