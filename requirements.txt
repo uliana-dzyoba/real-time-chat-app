@@ -24,7 +24,7 @@ django-browser-reload==1.6.0
 django-phonenumber-field==6.4.0
 django-phonenumbers==1.0.1
 django-tailwind==3.5.0
-hiredis==2.0.0
+hiredis==2.2.3
 hyperlink==21.0.0
 idna==3.3
 incremental==21.3.0
