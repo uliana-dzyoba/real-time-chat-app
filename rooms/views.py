@@ -2,11 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 
+from chatproject.settings import DEBUG
 from .models import Room, Message
 
 default_pfp = 'images/default_avatar.jpg'
 
 NUMBER_OF_MESSAGES = 25
+
+PROTOCOL = 'ws' if DEBUG else 'wss'
 
 @login_required
 def list_rooms(request):
@@ -15,14 +18,14 @@ def list_rooms(request):
     for room in qs:
         message = Message.objects.filter(room=room).first()
         rooms += [{'room': room, 'message': message}]
-    return render(request, 'rooms/rooms.html', {'chats': rooms, "dpfp": default_pfp})
+    return render(request, 'rooms/rooms.html', {'chats': rooms, 'dpfp': default_pfp})
 
 
 @login_required
 def get_room(request, slug):
     room = get_object_or_404(Room, slug=slug, private_chat=False)
     messages = room.messages.all()[0:NUMBER_OF_MESSAGES:-1]
-    return render(request, 'rooms/room.html', {'room': room, 'messages': messages, "dpfp": default_pfp})
+    return render(request, 'rooms/room.html', {'room': room, 'messages': messages, 'dpfp': default_pfp, 'protocol': PROTOCOL})
 
 
 @login_required
@@ -34,7 +37,7 @@ def list_private_chats(request):
         receiver = User.objects.get(username=username)
         message = room.messages.all().first()
         chats += [{'receiver': receiver, 'message': message}]
-    return render(request, 'rooms/private_chats.html', {'chats': chats, "dpfp": default_pfp})
+    return render(request, 'rooms/private_chats.html', {'chats': chats, 'dpfp': default_pfp})
 
 
 @login_required
@@ -48,4 +51,4 @@ def get_private_chat(request, username):
         name = first.capitalize() + second.capitalize()
         room = Room.objects.create(name=name, slug=slug, private_chat=True)
     messages = room.messages.all()[0:NUMBER_OF_MESSAGES:-1]
-    return render(request, 'rooms/room.html', {'room': room, 'username': username, 'messages': messages, "dpfp": default_pfp})
+    return render(request, 'rooms/room.html', {'room': room, 'username': username, 'messages': messages, 'dpfp': default_pfp, 'protocol': PROTOCOL})

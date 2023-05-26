@@ -94,6 +94,7 @@
 {% endblock %}
 
 {% block scripts %}
+{{ protocol|json_script:"json-protocol" }}
 {{ room.slug|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username" }}
 {% if request.user.userprofile.profile_pic %}
@@ -105,12 +106,14 @@
 {{ profile_url|json_script:"json-url" }}
 
 <script>
+    const protocol = JSON.parse(document.getElementById('json-protocol').textContent);
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = JSON.parse(document.getElementById('json-username').textContent);
     const userPfp = JSON.parse(document.getElementById('json-pfp').textContent);
     const pfUrl = JSON.parse(document.getElementById('json-url').textContent);
     const chatSocket = new WebSocket(
-        'ws://'
+        protocol
+        + '://'
         + window.location.host
         + '/ws/'
         + roomName
