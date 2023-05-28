@@ -8,13 +8,13 @@ from .models import UserProfile
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email',)
+        fields = ('username', 'first_name', 'last_name', 'email')
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", 'email',)
+        fields = ("first_name", "last_name", 'email')
 
 
 class UserProfileForm(forms.ModelForm):
