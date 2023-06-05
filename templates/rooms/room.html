@@ -32,54 +32,57 @@
 <div class="flex flex-col items-center">
     <div class="lg:w-3/4 w-full px-5">
         <div id="chat" class="w-full md:text-base text-sm lg:p-4 md:p-3 p-2 bg-white dark:bg-zinc-900 rounded-xl">
-            <div class="chat-messages max-h-full overflow-y-auto space-y-3" id="chat-messages">
-                {% for m in messages %}
-                    {% if request.user.username == m.user.username %}
+            {% if messages %}
+                <div class="chat-messages max-h-full overflow-y-auto space-y-3" id="chat-messages">
+                    {% for m in messages %}
+                        {% if request.user.username == m.user.username %}
+                            <div class="flex justify-end">
+                                <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-100">
+                                    <div><p>{{ m.content }}</p></div>
+                                    <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="flex">
+                                <div class="lg:h-20 md:h-16 h-10 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:profile" m.user.username %}';">
+                                    <img src="{% if m.user.userprofile.profile_pic %}{{m.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
+                                        alt="profile_pic" class="w-full md:rounded-3xl rounded-2xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                                </div>
+                                <div class="mt-1 mx-1 mr-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-500 dark:bg-amber-600 text-white dark:text-gray-50">
+                                    <div class="md:pb-1 pb-0.5 font-bold"><p>{{ m.user.username }}</p></div>
+                                    <div><p>{{ m.content }}</p></div>
+                                    <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
+                                </div> 
+                            </div>                  
+                        {% endif %}
+                    {% endfor %}
+                    <template id="mymessage">
                         <div class="flex justify-end">
                             <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-100">
-                                <div><p>{{ m.content }}</p></div>
-                                <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
+                                <div><p class="mycontent"></p></div>
+                                <div class="float-right"><p class="mytime text-xs"></p></div>
                             </div>
                         </div>
-                    {% else %}
+                    </template>
+                    <template id="message">
                         <div class="flex">
-                            <div class="lg:h-20 md:h-16 h-10 cursor-pointer" style="aspect-ratio: 1/1;" onclick="location.href='{% url "authentication:profile" m.user.username %}';">
-                                <img src="{% if m.user.userprofile.profile_pic %}{{m.user.userprofile.profile_pic.url}}{% else %}{% get_static_prefix %}{{dpfp}}{% endif %}"
-                                    alt="profile_pic" class="w-full md:rounded-3xl rounded-2xl" style="aspect-ratio: 1/1; object-fit: cover"/>
+                            <div class="pfpdiv lg:h-20 md:h-16 h-10 cursor-pointer" style="aspect-ratio: 1/1;">
+                                <img src="{% get_static_prefix %}{{dpfp}}" alt="profile_pic" class="pfp w-full md:rounded-3xl rounded-2xl" style="aspect-ratio: 1/1;
+                                object-fit: cover"/>
                             </div>
                             <div class="mt-1 mx-1 mr-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-500 dark:bg-amber-600 text-white dark:text-gray-50">
-                                <div class="md:pb-1 pb-0.5 font-bold"><p>{{ m.user.username }}</p></div>
-                                <div><p>{{ m.content }}</p></div>
-                                <div class="float-right"><p class="text-xs">{{ m.date_added|date:'H:i' }}</p></div>
-                            </div> 
-                        </div>                  
-                    {% endif %}
-                {% endfor %}
-                <template id="mymessage">
-                    <div class="flex justify-end">
-                        <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-100">
-                            <div><p class="mycontent"></p></div>
-                            <div class="float-right"><p class="mytime text-xs"></p></div>
+                                <div class="md:pb-1 pb-0.5 font-bold"><p class="username"></p></div>
+                                <div><p class="content"></p></div>
+                                <div class="float-right"><p class="time text-xs"></p></div>
+                            </div>
                         </div>
-                    </div>
-                </template>
-                <template id="message">
-                    <div class="flex">
-                        <div class="pfpdiv lg:h-20 md:h-16 h-10 cursor-pointer" style="aspect-ratio: 1/1;">
-                            <img src="{% get_static_prefix %}{{dpfp}}" alt="profile_pic" class="pfp w-full md:rounded-3xl rounded-2xl" style="aspect-ratio: 1/1;
-                            object-fit: cover"/>
-                        </div>
-                        <div class="mt-1 mx-1 mr-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-500 dark:bg-amber-600 text-white dark:text-gray-50">
-                            <div class="md:pb-1 pb-0.5 font-bold"><p class="username"></p></div>
-                            <div><p class="content"></p></div>
-                            <div class="float-right"><p class="time text-xs"></p></div>
-                        </div>
-                    </div>
-                </template>
-            </div>
-            <div class="flex flex-col h-full justify-center">
-                <p class="lg:text-2xl md:text-xl text-base text-center text-gray-300 dark:text-zinc-500">No messages yet</p>
-            </div>
+                    </template>
+                </div>
+            {% else %}
+                <div class="flex flex-col h-full justify-center">
+                    <p class="lg:text-2xl md:text-xl text-base text-center text-gray-300 dark:text-zinc-500">No messages yet</p>
+                </div>
+            {% endif %}
         </div>
 
         <div class="w-full md:mt-4 mt-3 lg:mx-auto lg:p-4 md:p-3 p-2 bg-white dark:bg-zinc-900 rounded-xl">
