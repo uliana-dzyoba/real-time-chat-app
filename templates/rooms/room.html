@@ -35,6 +35,12 @@
             {% if messages %}
                 <div class="chat-messages max-h-full overflow-y-auto space-y-3" id="chat-messages">
                     {% for m in messages %}
+                        {% if m.split %}
+                            <div class="lg:pt-2 md:pt-1.5 pt-1">
+                                <p class="text-center text-gray-400 dark:text-zinc-400">{{ m.split }}</p>
+                            </div>
+                        {% endif %}
+                        
                         {% if request.user.username == m.user.username %}
                             <div class="flex justify-end">
                                 <div class="mt-1 ml-5 md:px-2.5 px-2 py-1 rounded-xl bg-amber-400 dark:bg-amber-700 text-white dark:text-gray-100">

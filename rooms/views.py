@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from chatproject.settings import DEBUG
 from .models import Room, Message
+from .utils import split_dates
 
 default_pfp = 'images/default_avatar.jpg'
 
@@ -25,6 +26,7 @@ def list_rooms(request):
 def get_room(request, slug):
     room = get_object_or_404(Room, slug=slug, private_chat=False)
     messages = room.messages.all()[0:NUMBER_OF_MESSAGES:-1]
+    split_dates(messages)
     return render(request, 'rooms/room.html', {'room': room, 'messages': messages, 'dpfp': default_pfp, 'protocol': PROTOCOL})
 
 
@@ -51,4 +53,5 @@ def get_private_chat(request, username):
         name = first.capitalize() + second.capitalize()
         room = Room.objects.create(name=name, slug=slug, private_chat=True)
     messages = room.messages.all()[0:NUMBER_OF_MESSAGES:-1]
+    split_dates(messages)
     return render(request, 'rooms/room.html', {'room': room, 'username': username, 'messages': messages, 'dpfp': default_pfp, 'protocol': PROTOCOL})
